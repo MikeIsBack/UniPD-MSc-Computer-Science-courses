@@ -1,0 +1,145 @@
+Hidden terminal problem
+A <-> B <-> C
+C sta trasmettendo a B
+A vuole trasmettere a B, e non sente che C sta già trasmettendo
+A trasmette a B, e B si trova con due trasmissioni in arrivo, quindi sente interferenze
+
+Exposed terminal problem
+A <-> B <-> C <-> D
+A sta trasmettendo a B
+le trasmissioni di A arrivano fino a C, ma non fino a D
+quindi A non può creare interferenze su D
+C vuole trasmettere a D, ma sente delle trasmissioni di A
+C teme interferenze di A e rinuncia a trasmettere a D
+C avrebbe potuto trasmettere a D, che tanto le interferenze là non ci sono, tuttavia questo non poteva saperlo
+
+
+802.11
+Occupa gli strati MAC e fisico
+Può funzionare in tre modi:
+-DCF (CSMA/CA)
+--CSMA/CA
+--CSMA/CA con RTS e CTS
+-PCF
+
+Il DCF di base è un CSMA/CA, cioè:
+-Carrier Sense, si ascolta il canale aspettando che sia libero prima di trasmettere
+-Collision Avoidance, quando il canale è libero, prima di trasmettere si attende un tempo casuale (random backoff)
+-RTS e CTS sono opzionali, ma molto supportati, e servono a ridimensionare il problema della hidden terminal
+-resta il problema della exposed terminal
+
+Di preciso, per avviare una trasmissione, si seguono i seguenti passi:
+1) si ascolta il canale, e si aspetta un intervallo di tempo DIFS (DCF Inter-Frame Space)
+1a) se il canale diventa occupato prima che sia passato un DIFS intero
+    si aspetta e poi si ricomincia a contare DA CAPO
+1b) se il canale resta libero per un DIFS intero
+    si pesca un numero a caso in un determinato intervallo (min-max), questo numero è detto Contention Window
+2) si ascolta il canale, aspettando fino ad esaurire la Contention Window (questo è il backoff della CA)
+2a) se il canale diventa occupato prima che sia finita la Contention Window,
+    si aspetta che il canale torni libero, e poi si ricomincia a contare DA DOVE CI SI ERA FERMATI
+3) si manda un RTS (Request To Send)
+4) si attende il CTS (Clear To Send), che la stazione ricevente invierà dopo un SIFS (Short Inter-Frame Space)
+5) si attende un SIFS, e si inizia a trasmettere
+6) si attende l'ack dei dati trasmessi, che la stazione ricevente invierà dopo un SIFS, se tutto è andato bene
+
+I pacchetti spediti hanno un NAV (Network Allocation Vector), che indica un tempo da attendere dopo quel pacchetto,
+per riservare il canale. L'ultimo ack ha NAV a zero, ed indica un rilascio immediato del canale.
+
+La modalità PCF:
+-Point Coordinator Function
+-è studiata per applicazioni in tempo reale
+-è meno supportata della modalità DCF
+
+1) l'AP aspetta un PIFS prima di prendere il canale (fa da Point Coordinator)
+2) interroga a turno le stazioni (fa polling)
+3) quando una stazione è interrogata, aspetta un SIFS e risponde per dire se ha qualcosa da trasmettere
+
+Si possono alternare DCF e PCF per farli funzionare assieme:
+-il DCF funziona in un contention period
+-il PCF funziona in un contention free period
+-altrimenti il traffico PCF avrebbe sempre priorità sul traffico DCF, in quanto il tempo di attesa per
+ la cattura del canale è minore
+
+BSS
+Basic Service Set, è l'insieme di tutte le stazioni che possono comunicare tra di loro
+Ce ne sono due tipi:
+-indipendente (ad-hoc)
+-con infrastruttura
+
+TSF
+Timing Synchronization Function, timer usato in modalità Power Management
+Ad intervalli regolari, vengono mandati dei beacon con un timestamp (orario) che serve a sincronizzare le varie stazioni
+I beacon hanno anche informazioni utili per permetterei ai nodi di capire che fare
+Le stazioni dormono per risparmiare energia e si svegliano al momento giusto per ascoltare dei beacon
+
+TIM
+Traffic Indication Map, pacchetto usato in modalità Power Management
+lo manda l'AP per indicare alle stazioni se, mentre dormivano, ha bufferizzato dei messaggi per loro
+è incluso nei beacon
+
+Scanning
+Effettuato dalle stazioni mobili per trovare nuovi AP a cui connettersi, e se cambiare AP
+Due modalità:
+-passiva, si ascoltano i beacon per scoprire gli AP
+-attivo, si mandano delle probe e si aspetta risposta, così si scambiano i dati per agganciarsi
+
+[manca una piccola parte sulla fine delle slide 6]
+
+QoS
+Quality of Service, serve per gestire al meglio diversi tipi di traffico all'interno della stessa rete.
+Ad esempio, email e VoIP hanno necessità diverse in termini di banda e di tempo di risposta, e trattarli allo stesso modo non sarebbe la soluzione ottimale.
+Si cerca quindi di prioritizzare il traffico che necessita di tempi di risposta veloci.
+
+802.11e
+Estensione dello standard che introduce il Quality of Service (QoS). I prodotti che ne supportano le parti obbligatorie sono certificati Wi-Fi Multimedia (WMM).
+
+Introduce due modalità per l'accesso al canale:
+-EDCA, simile a DCF, implementato dai dispositivi WMM certified
+-HCCA, simile a PCF, opzionale e poco implementato
+
+EDCA
+Enhanced Distributed Channel Access
+Definisce 4 Access Categories (AC), tipi di traffico, in ordine di priorità:
+-Voice
+-Video
+-Best Effort
+-Background
+
+Laddove prima bisognava che tutti i dispositivi aspettassero un DIFS intero e poi una CW (Contention Window) scelta a caso in un range
+
+Per rendere effettiva questa priorità, gioca sui tempi che ciascuno aspetta per catturare il canale:
+-con EDCA ognuno aspetta che il canale sia libero per un intero AIFS (Arbitration Inter-Frame Space), che varia a seconda della AC (più corto per le AC più alte), se questo intervallo viene interrotto, si ricomincia a contare da capo
+-una volta passato un AIFS intero, si aspetta un tempo aggiuntivo casuale detto CW (ConTention Window), questo tempo è calcolato in modo da essere statisticamente più corto per le AC più alte, giocando sull'aggiustamento del range di numeri casuali (CWmin, CWmax)
+-nel caso venga rilevato un conflitto, si aspetta un tempo di backoff prima di tornare ad ascoltare il canale, questo tempo è calcolato in modo da essere statisticamente più corto per le AC più alte
+
+Per confronto, col DCF tutti aspettavano che il canale fosse libero per 1 DIFS intero, uguale per tutti, e poi aspettavano per un tempo di attesa interrompibile detto CW (Contention Window), pescato a caso da un range (CWmin,CWmax) che poteva essere diverso per ognuno. I tempi di backoff erano calcolati tramite backoff binario (x2 ad ogni insuccesso consecutivo).
+
+Quando una stazione cattura il canale, le viene garantita la possibilità di trasmettere lei solo (contention-free) per un periodo detto Transmit Opportuniti (TXOP). La lunghezza di questo TXOP dipende dall'AC del traffico.
+
+Una singola stazione che abbia più flussi di traffico in uscita, per decidere come ordinare la trasmissione dei propri pacchetti di vario tipo, simula quello che avviene per l'accesso al canale.
+
+EDCA Admission Control
+Per evitare che tutti si buttino sulle AC più alte, è possibile predisporre dei controlli di ammissione. I dispositivi che implementano questa aggiunta ad EDCA sono certificati WMM-Admission Control.
+L'AP segnala con un beacon se l'accesso ad una AC è ristretto.
+Le stazioni che intendono spedire traffico con quella AC devono inviare delle TSPEC (Traffic SPECification) all'AP. Se la stazione sgarra o all'AP manca la banda, la stazione dovrà usare un AC inferiore per quel traffico.
+
+HCCA
+HCF Controlled Channel Access, dove HCF sta per Hybrid Coordination Function. I dispositivi che implementano questa modalità sono certificati WMM-SA (Wireless Multi-Media Scheduled Access).
+Definisce 8 Traffic Classes (TC), che coincidono con quelle di 802.1pQ (Qos per Ethernet), e vanno da 0 a 7.
+Assomiglia al PCF in quanto c'è un entità centrale che decide chi deve trasmettere, solo che stavolta si chiama HC (Hybryd Coordinator).
+Sfrutta delle TSPEC più avanzate rispetto a quelle dell'Admission Control.
+[finire]
+
+Altre funzionalità di 802.11e:
+-Automatic Power Saving Delivery (APSD), una stazione manda e riceve in un colpo solo, poi torna a dormire finché non c'è altro da spedire
+-Block Acknowledgements, basta un solo ack per tutto un blocco TXOP
+-NoAck, implementata dai WMM certified, il mittente può specificare che non è necessario l'invio di ack, utile nel caso di traffico real-time, in cui rimandare sarebbe inutile
+-Direct Link Setup, permette a due stazioni connesse allo stesso AP di comunicare direttamente tra loro
+
+[qui 802.11n]
+
+[qui 802.11p e lavori relativi]
+
+[qui Fast Broadcast]
+
+/*by Agostino Sturaro, nella speranza che siano corretti e possano servire*/

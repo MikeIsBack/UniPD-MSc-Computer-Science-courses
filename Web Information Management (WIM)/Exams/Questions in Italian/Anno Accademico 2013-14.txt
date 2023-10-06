@@ -1,0 +1,15 @@
+Anno Accademico 2013/14
+
+I Appello (01/07/2014)
+
+1) Spiegare il problema dei posizionamento dei banner pubblicitari.
+2) Tecnica del dumping: ambiti d’uso, vantaggi, svantaggi.
+3) Analisi d’usabilità di una pagina web (fornita tramite immagine).
+
+--------------------------------------------------------------------------
+
+V Appello (18/12/2014)
+
+1) Pregi difetti del linguaggio SPARQL
+2) Cosa si intende per "Lost in Navigation"? Indicare delle soluzioni al problema
+3) Analisi usabilità del sito (riportato nel compito una Home Page: http://www.santaclausvillage.info/it/)

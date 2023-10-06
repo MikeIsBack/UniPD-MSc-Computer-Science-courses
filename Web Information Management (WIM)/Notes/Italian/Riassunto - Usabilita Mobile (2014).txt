@@ -1,0 +1,41 @@
+SITI MOBILE
+===========
+
+Introduzione
+------------
+
+Molti siti non anno un sito mobile e quasi tutti hanno problemi di usabilità. L'evoluzione è quella di convergenza tra desktop e mobile.
+
+Le app sono una conseguenza della minimizzazione dello sforzo computazionale, in quanto minimizza il tempo di accesso. Gli utenti smartphone passano in media l'86% del tempo sulle app. il 32% giocando ed il 28% su siti social.
+
+Se la crescita di un'app dura più di 3 mesi allora molto probabilmente vivrà molto più a lungo. Resta il classico problema di essere trovati. Primariamente si viene trovati nello store, il quale è un motore di ricerca.
+
+App Search Optimization
+-----------------------
+
+Lo store, essendo un motore di ricerca, funziona per parole chiave, che quindi dovremmo inserire nell'app. I pochi posti possibili sono: descrizione, keyword ma in particolare nome. Per il resto i motori di ricerca usano tutta l'informazione dal SIS.
+
+Componenti base
+---------------
+
+Le 3 componenti base del mobile sono:
+
+* Essere mobile
+Le reti 3G sono il 40% più lente di quelle desktop, mentre quelle 4G in media il 12% più lente. Quindi ogni sito paga un corrispondente dazio in termini di velocità ed aumento i timer. Nel caso desktop il ritardo non deve essere superiore ai 2 secondi. Nel mobile (e quindi nelle app) rimane invariato e per questo bisogna stare attenti.
+È essenziale inoltre essere responive. Mettere una progress bar provoca frustrazione nell'utente (viene percepito più lungo). Perciò si usano altre tecniche:
+ - transitioning: tenere l'utente impegnato in animazioni
+ - skeleton screen: particolare forma di transitioning, se so il layout del sito finale posso cominciare a disegnarlo
+ - preemptivenes: cerco di prevenire alcune azioni
+ - versioni a super banda ridotta (es: 0.facebook.com).
+
+* Taglia dello schermo
+Lo scroll orizzontale è molto peggiore di quello verticale. Lo sforzo fisico e mentale è minore perchè si usano le gesture. La via di mezzo è da evitare.
+Per ovviare alla taglia dello schermo si potrebbero usare le icone, ma l'utente non le gradisce rispetto al classico testo.
+Le pubblicità non devono essere troppo vaste. Gli smart banner sono i migliori però funzionano molto male se sono implementati in posizione fissa. Ancora di più se il banner cambia. Lo smart app banner ha lo stesso effetto negativo dei pop-up.
+
+* Mezzo di iterazione: le dita
+Il vantaggio è che il drag non crea sforzi muscolari e per questo facilita l'uso delle gesture.
+L'untiming (azioni derivanti da pressione) non dovrebbero dipendere dalla durata, ma solo distinguere tap e drag. Non rispettarlo provoca stress.
+Il problema principale è che le dita sono molto grandi e non riusciamo a cliccare in modo preciso. La taglia minima di un'area cliccabile dev'essere di 7x7 mm ed attorno 2 mm di padding.
+Inoltre ogni azione che si compie dovrebbe essere reversibile, tanto più in situazioni di potenziale errore.
+Fitts cambia nel senso ch ela taglia dell'oggetto conta, ma ora conta anche l'imprecisione. Usare i pollici peggiora la precisione. Tenere i controlli nella parte bassa è una cosa buona. I bordi possono essere fruttati per i fan menu, mentre i pie menu non sono il massimo.

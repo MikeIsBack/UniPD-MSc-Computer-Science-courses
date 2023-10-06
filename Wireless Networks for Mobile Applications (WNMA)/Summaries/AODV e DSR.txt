@@ -1,0 +1,101 @@
+AODV
+
+-protocollo di routing on demand
+-un nodo che debba spedire un pacchetto ad una destinazione controlla se ha un percorso verso
+ questa nella propria tabella di routing, e, se non ne ha, manda una richiesta di routing (RREQ)
+ ai propri vicini
+-i vicini ricevono le RREQ e ritornano delle risposte RREP, se sono a conoscenza di un percorso adeguato
+-richieste e risposte vengono inoltrate senza modificare i pacchetti
+-ogni nodo mantiene un "source sequence number", che inserisce nelle proprie richieste RREQ
+ e che aggiorna ogni volta che CHIEDE un nuovo routing verso una destinazione
+-ogni nodo mantiene anche un "destination sequence number", che inserisce nelle proprie risposte RREP
+ e che aggiorna ogni volta che RISPONDE ad una nuova richiesta di routing che lo descrive come la destinazione
+
+Tabelle di routing
+-tenute solo dai nodi (mai nei messaggi)
+-sono del tipo: "destinazione", "primo nodo del percorso per arrivarci", "destination sequence number" (indica la freschezza rispetto a path con la stessa destinazione)
+-ogni percorso viene cancellato se resta inutilizzato per troppo tempo (serve un numero relativo alla freschezza rispetto al nodo che tiene la tabella)
+
+RREQ
+Route REQuest, contengono i campi:
+-source ip (chi la manda)
+-destination ip (chi deve essere raggiunto)
+-source sequence number (generato dalla sorgente incrementando di 1 ogni volta che chiede un nuovo percorso per una destinazione; se la richiesta è la stessa ma spedita più volte, resta lo stesso, a meno che non stia richiedendo un aggiornamento del path)
+-destination sequence number (identifica l'ultimo path conosciuto dalla sorgente, è stato generato quando una RREQ precedente aveva raggiunto la destinazione, e questa aveva dato la sua risposta numero x)
+
+Chi riceve la RREQ
+-controlla la coppia (source sequence number, source IP), che identifica una specifica richiesta di percorso, il source sequence number da solo vuol dire solo "la n-esima richiesta", e solo assieme al source IP vuol dire "la n-esima richiesta di Tizio", piuttosto che "la n-esima richiesta di Caio":
+a) se la ha già vista,
+   ->la scarta, avrà già risposto e questa è una richiesta in loop
+   DOMANDA: una destinazione può rispondere due volte alla stessa RREQ? Magari per due vicini che gli girano la stessa domanda?
+b) se è lui la destinazione,
+   ->risponde con una RREP a chi gli ha girato la RREQ, questa RREP avrà un destination sequence number probabilmente diverso dal source sequence number, calcolato dalla destinazione incrementando il suo valore precedente nel caso questa sia una risposta ad una richiesta di percorso nuova
+   es: ho già visto la richiesta 3 di Caio? No, questa è nuova. A che punto sta il mio destination sequence number? 5, avrò risposto a richieste di altri, ci sommo 1 e restituisco 6: questa è la mia sesta risposta ad una richiesta di percorso.
+c) se conosce un percorso con un destination sequence number più recente,
+   ->risponde con una RREP a chi gli ha girato la RREQ
+d) se non conosce un percorso, o ne conosce uno di vecchio,
+   ->si segna la coppia che identifica la RREQ (servirà ad evitare i loop)
+   ->si segna l'ip della sorgente e quello di chi gli ha girato la RREQ
+     tiene un puntatore che servirà come hop del reverse path (percorso di ritorno) per la RREP
+   ->inoltra la RREQ ai suoi vicini, tranne a quello da cui l'ha ricevuta (se loro sapranno rispondere, potrà poi inoltrare la risposta)
+
+RREP
+Route REPly, contengono i campi:
+-numero di hop per raggiungere la destinazione
+-destination IP address
+-destination sequence number
+-source IP
+-lifetime, un timeout per evitare che girino troppo a vuoto
+
+Chi riceve la RREP
+-controlla la coppia (destination sequence number, destination IP), che identifica una specifica risposta ad una richiesta di percorso, il destination sequence number da solo vuol dire solo "la n-esima risposta", con il destination IP vuol dire "la n-esima risposta di Sempronio". Ci serve per scartare risposte in loop, per sapere a quale m-esima richiesta faceva riferimento basta vedere gli altri campi. Quindi:
+a) se è la prima che la vede
+   ->se la segna
+   ->si segna il numero di hop per raggiungere la destinazione
+   ->inoltra la RREP al vicino che gli aveva girato la RREQ della sorgente (usa il puntatore del reverse path)
+b) se la ha già vista,
+   ->controlla il numero di hop per raggiungere la destinazione
+   ->se questo è minore di quella già vista, inoltra la RREP, altrimenti la ignora
+DOMANDA: controlla se nella sua tabella di routing ha una route più aggiornata e migliore?
+
+RERR
+-usate in caso un nodo si accorga che un percorso verso una destinazione è interrotto
+ dal venir meno di uno dei suoi vicini
+-il nodo che rileva l'interruzione spedisce a tutti i suoi vicini un pacchetto con scritta
+ la destinazione divenuta (per lui) irraggiungibile
+
+Messaggi Hello
+-scambiati periodicamente tra vicini
+-se non vengono ricevuti si assume che il vicino se ne sia andato
+-non indispensabili (ci sono altri modi)
+
+
+
+DSR
+
+Simile ad AODV, usa RREQ ed RREP
+Ma non usa delle vere e proprie RERR.
+
+Differenze:
+-NON usa il destination sequence number
+-NON tiene puntatori per il reverse path della RREQ all'interno dei nodi
+-aggiunge il path seguito dalla RREQ all'interno del pacchetto
+
+Specificità:
+-un nodo scarta una RREQ se ha già visto lo stesso pacchetto, o compare all'interno del path seguito dal pacchetto (loop)
+-rispondere con una RREP può essere un problema se i link sono asimmetrici
+-se i link sono asimmetrici, ed il nodo non ha un percorso verso la sorgente della RREQ, allora deve spedire una RREQ per scoprire come mandare la RREP, può spedire la RREP in piggyback alla nuova RREQ
+-per evitare che le RREQ si spandano troppo, per via del flooding, gli viene assegnato un hop limit,  decrementato ad ogni salto, quando arriva a zero vengono scartate
+-per evitare che le RREP tornino a valanga (route reply storm), vengono spedite dopo un attesa proporzionale al numero di hop, così quelle che costruiscono una strada più lunga torneranno dopo, e potranno essere scartate
+-quando un nodo si accorge di non riuscire a recapitare un pacchetto, informa quelli che glielo avevano girato che il link è saltato, e di cercarsi un nuovo percorso
+
+Pro:
+-permette l'accorciamento automatico del percorso nel caso un nodo che
+ riceva la RREQ si accorga di avere in memoria un percorso migliore
+
+Contro:
+-i pacchetti RREQ pesano di più man mano che attraversano hop verso la destinazione
+-anche le RREP pesano di più, perché contengono tutto il percorso seguito all'andata
+-poco scalabile (i pacchetti diventano troppo pesanti dopo alcuni hop)
+
+/*by Agostino Sturaro, nella speranza che siano corretti e possano servire*/

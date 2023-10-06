@@ -1,0 +1,5 @@
+Useful documentation for solving this challenge:
+-) Activity: https://developer.android.com/reference/android/app/Activity
+-) Explicit and implicit intents: https://developer.android.com/guide/components/intents-filters
+-) MessageDigest: https://developer.android.com/reference/java/security/MessageDigest
+-) Hex class: http://javadox.com/org.bouncycastle/bcprov-jdk15on/1.50/org/bouncycastle/util/encoders/Hex.html

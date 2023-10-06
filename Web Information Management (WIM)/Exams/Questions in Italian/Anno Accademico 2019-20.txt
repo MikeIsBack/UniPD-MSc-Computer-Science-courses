@@ -1,0 +1,18 @@
+Anno Accademico 2019-20
+
+I Appello (23/01/2020)
+
+1) Weaving: caratteristiche, pregi/difetti, ambiti d'uso.
+2) Descrivere almeno una struttura di link elencandone caratteristiche, pregi/difetti, ambiti d'uso
+3) Analisi di usabilità del sito: http://web.archive.org/web/20150205232528/http://laversilia.it/
+
+II Appello (12/02/2020)
+
+1) Dumping: caratteristiche, pregi/difetti, ambiti d'uso.
+2) RDF e RDFS: caratteristiche, pregi/difetti, ambiti d'uso.
+3) Analisi di usabilità
+
+III Appello (17/06/2020 - TELEMATICO)
+
+1) Descrivere la tecnica di cloaking, ambiti d'uso, pregi e difetti. 
+2) Analisi di usabilità del sito: https://noipadova.it/

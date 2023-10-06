@@ -1,0 +1,3 @@
+Esercizi computabilita' Agostino:
+Pag. 31: Soluzione sbagliata in parte, versione corretta nella soluzione del 2015-09-03
+Pag. 37: Soluzione un po' troppo complessa e difficile da spiegare, versione corretta nella soluzione del 2015-09-03

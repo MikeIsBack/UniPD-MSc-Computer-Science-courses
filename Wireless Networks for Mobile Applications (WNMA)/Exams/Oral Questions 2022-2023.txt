@@ -1,0 +1,6 @@
+ORAL EXAMINATION (QUESTIONS) (01/2023):
+1 - IEEE 802.11: What is it? What does it regulate? What are the different versions of the standard? Do they need to be able to interact?
+2 - DCF: What is it? How does a packet exchange work? What is the difference by using CSMA/CA? What is the "hidden terminal" problem and how to resolve it?
+3 - TCP: What is it? What are the main versions?
+4 - TCP HYBLA: What is it? What is it suitable for? How does it work? What are to pros and cons of using it?
+5 - BLUETOOTH - What is it? What is a piconet and is it formed?

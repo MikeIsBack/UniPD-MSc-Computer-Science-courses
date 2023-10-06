@@ -1,0 +1,7 @@
+Hello everyone,
+here in this repository there is a LaTex file which contains all the answers to the commons question done over the years.
+Feel free to open pull requests or issues and modify the file as you want, but before publishing the modification, I would like to give approval for them in order to mantain quality.
+Hope this can help you to study :)
+
+Link:
+https://github.com/filippobrugnolaro/Q-A-WIM
