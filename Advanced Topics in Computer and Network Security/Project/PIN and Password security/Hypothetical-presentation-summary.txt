@@ -1,10 +1,12 @@
 SLIDE 1: Application fields for PINs
-- ATMs, PoS, unlock smartphones, smart bank, etc.. 
+- ATMs, PoS, unlock smartphones, smart bank, etc..
 - explain why PINs security is an essential factor
 
-SLIDE 2: Focus on ATMs and PoS PINs
-- Problem of information leakage (via observable/acoustic information)
-- Goal of the paper: combine inter-keystroke timings with observable information to deduce a PIN
+SLIDE 2: Focus on ATMs and PoS PINs (section 2)
+- Problem of information leakage in:
+	- Non-acoustic Side-channels
+	- Acoustic Side-channels
+- Goal of the paper: combine audio feedbacks with observable information to deduce a PIN
 
 SLIDE 3: Adversary Models (section 3)
 - Inter-keystroke timings 
@@ -25,11 +27,11 @@ SLIDE 6: PIN inference from information about the first or the last digit of the
 SLIDE 7: PIN inference from knowledge of which keys have been pressed (section 4.5)
 - How the added source improve attacks
 
-SLIDE 8: Conclusions (section 5 + 6)
+SLIDE 8: paper 1 conclusions (section 5 + 6)
 - PINs and their guessing probability distribution
 
 SLIDE 9: Focus on smartphone PINs (section 1 + 2)
-- User PIN selection scenarios (easy and equal PINs = easy to remember)
+- Problem of usability and security
 - Why PIN selection policies are so important
 
 SLIDE 10: Actual distribution of the real world PINs (section 3)
@@ -40,10 +42,10 @@ SLIDE 10: Actual distribution of the real world PINs (section 3)
 
 SLIDE 11: Online survey to examine the effectiveness of PIN selection (section 4)
 - Participants
-- Methodology: choose PINs over 5 different PIN selection policies to respect
-- Feedback on how much chosen PINs were easy to remember
+- Methodology: choose PINs over 5 different PIN selection policies
+- Feedback on how many chosen PINs were easy to remember
 
-SLIDE 12: Conclusions (section 5)
+SLIDE 12: paper 2 conclusions (section 5)
 - Percentual of participants who should change their chosen PINs over the 5 different PIN selection policies
 
 
