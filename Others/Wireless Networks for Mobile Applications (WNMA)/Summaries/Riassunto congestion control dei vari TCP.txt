@@ -1,0 +1,47 @@
+Slow start e congestion avoidance
+Durante la fase di slow start, il mittente aumenta il valore della cwnd ogni volta che riceve un ack di conferma dell’arrivo di nuovi dati.
+Ogni volta che il destinatario riceve una intera finestra di dati corretti, la cwnd viene raddoppiata  (incremento moltiplicativo).
+Ogni RTT, cwnd = cwnd*2
+Nel caso in cui slow start termini perché la cwnd ha raggiunto il valore di ssthresh, si entra in modalità congestion avoidance nella quale la variabile cwnd viene aumentata solo di un segmento per ogni intera finestra di dati che è giunta a destinazione (incremento additivo).
+Ogni RTT, cwnd = cwnd+1
+
+Da notare che Tahoe, Reno e New Reno hanno un timer per il timeout che viene controllato ogni RTT o più.
+Spesso si accorge che un timeout è scaduto solo dopo un pezzo. Si dice che hanno un "coarse grained timer" (timer a grana grossa), perché i controlli sono un po' grezzi.
+
+Fast retransmit
+Dopo l'arrivo di 3 ack duplicati, si rispedisce il primo pacchetto non ancora acked, senza aspettare il timeout.
+Inoltre:
+-TCP Tahoe, ssthresh = max(cwnd/2, MSS*2), cwnd = 1, ricomincia con lo slow start
+-TCP Reno, ssthresh = max(cwnd/2, MSS*2), cwnd = max(cwnd/2, 1), ricomincia con la congestion avoidance
+-TCP New Reno, tiene ferme ssthresh e cwnd, quindi cerca di spedire i pacchetti che stanno tra il più alto pacchetto acked ed il più alto pacchetto spedito, se fa progressi intermedi resetta il timer, altrimenti va in timeout
+
+Fast recovery
+There is a variation to the slow-start algorithm known as Fast Recovery, which uses fast retransmit followed by Congestion Avoidance. In the Fast Recovery algorithm, during Congestion Avoidance mode, when packets (detected through 3 duplicate ACKs) are not received, the congestion window size is reduced to the slow-start threshold, rather than the smaller initial value
+
+TCP Vegas recovery
+ssthresh = max(cwnd*(3/4), MSS*2), cwnd = 1
+se ci sono altri pacchetti persi nella stessa window, riduce ssthresh e cwnd una volta sola, un po' come New Reno
+
+TCP Vegas retransmission
+In aggiunta al "coarse grained timer" controllato ogni tanto, ha un "fine grained timer": si segna un timeout per ogni pacchetto e lo controlla in maniera più sistematica. 
+Ogni volta riceve un ack fresco (non duplicato), può controllare se ci sono pacchetti andati in timeout.
+Quando riceve un dupack, controlla il timestamp del pacchetto per sapere se uno di quelli spediti e non ancora acked è andato in timeout. In tal caso lo rispedisce subito.
+Non adotta meccanismi di dimezzamento, ma aggiusta i parametri, facendo una stima del carico della rete. Dopo aver aggiustato i parametri, aspetta un giro per vedere se cambiano gli RTT.
+
+FastER Recovery (TCP Westwood)
+TCP Westwood utilizza una stima della bandwidth disponibile per impostare cwnd ed ssthresh in ad un valore più vicino all'effettiva diponibilità di banda.
+
+Inefficienze dei TCP classici ad alte velocità
+The reason TCP performance starts to degrade beyond 100M bit/sec has to do with the window-adjustment algorithm. In its congestion-avoidance phase, ordinary TCP increases its sending window by one packet every round-trip time. And when it detects congestion, it cuts the window in half. For a high-bandwidth, high-latency connection, which is called a long fat network or LFN, the optimal window size might be 8,000 packets or more. This means it takes 4,000 round trips to recover from congestion. If each round-trip takes 100 millisec, the recovery time is 400 seconds. In a highly dynamic network, with lots of connections coming and going, normal TCP is simply too sluggish to track all of the activity.
+
+TCP Cubic
+si distanzia molto dal TCP classico in quanto se ne frega degli ack e pure dei tempi di RTT (questo gli permette di essere RTT-fair, figo)
+la cwnd viene calcolata come una funzione cubica dall'ultima perdita di pacchetti
+ad ogni perdita, calcola un nuovo punto di inflessione Wmax della nuova cubica, e comincia a disegnarla (la cwnd si abbassa a picco e poi torna ad alzarsi)
+
+High Speed TCP
+HS-TCP alters how the window is opened on each round trip and closed on congestion events as a function of the absolute size of the window. When the window is small, HS-TCP behaves exactly like ordinary TCP. But when the window is large, it increases the window by a larger amount and decreases it by a smaller amount, where these amounts are chosen based on the precise value of the window in operation.
+
+[manca Hybla e qualcos'alto]
+
+/*by Agostino Sturaro, nella speranza che siano corretti e possano servire*/
