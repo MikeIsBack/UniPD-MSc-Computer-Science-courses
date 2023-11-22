@@ -1,0 +1,12 @@
+Wednesday	6	December	62. (MISC): Cyber-Threat Intelligence
+					70. (MISC): Security and privacy of keyboard
+					67. (MISC): Textual Captchas
+	
+Thursday	7	December	49. (Social Networks): Fake Engagement on Instagram
+					48. (Social Networks): Social Network Analysis
+					50. (Social Networks): Private data inference from Social Networks
+
+Thursday	14	December	14. (CPS): Cyber-Physical Anomaly Detection
+					12. (CPS): IoT security
+					21. (CPS): Vehicular Security - Charging-While-Driving
+					61. (MISC): Misuses in Wearable Devices
