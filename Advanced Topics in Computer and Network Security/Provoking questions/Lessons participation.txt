@@ -31,3 +31,6 @@ X) Thursday	14	December	14. (CPS): Cyber-Physical Anomaly Detection
 =========
 QUESTIONS
 =========
+
+14) What are the advantages and disadvantages of implementing the detection algorithm in a centralized manner, also comparing this approach with the distribution one?
+61) Considering the trade-offs between security and usability, what challenges exist in implementing security measures that do not adversely impact the functionality and user experience of external devices?
