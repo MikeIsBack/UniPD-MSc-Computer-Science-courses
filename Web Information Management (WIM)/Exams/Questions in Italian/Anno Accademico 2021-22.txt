@@ -1,6 +1,0 @@
-2 Appello 18/02/2022
-
-1) Describe at least 1 optimal structure of an
-alliance to optimize PageRank
-2) Weaving: ambiti d'uso, pregi, difetti
-3) Usability analysis (presente nella cartella, anche quella del primo appello)

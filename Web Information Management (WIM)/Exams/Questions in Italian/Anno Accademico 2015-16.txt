@@ -1,7 +1,0 @@
-Anno Accademico 2015/16
-
-I Appello (03/02/2016)
-
-1) FOAF: descrizione, ambiti d'uso, pregi e difetti.
-2) URL-spam: descrizione, ambiti d'uso, lati positivi e negativi.
-3) Analisi del sito http://www.carnevaleolbiese.it/
