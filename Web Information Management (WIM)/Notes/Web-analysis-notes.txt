@@ -1,0 +1,27 @@
+WEB SITE ANALYSES
+
+- informative axes (WHERE, WHO, WHAT always madatory + WHEN, HOW, WHY mandatory just in the homepage)
+
+- taking care about users' timers (don't put too much information, things like "read more..." are preferable)
+
+- use breadcrumbs to localize the users' position in a website 
+
+- don't break the web conventions (different color for visited links, etc.)
+
+- avoid asking personal information/pop-up
+
+- avoid at all cost the horizontal scrolling (2 dimensions to manage)
+
+- avoid bloated design (large images, etc.)
+
+- pay attention with the broken visual metaphor problem (buttons clickable only on the label, blue bold words that are not links, etc.)
+
+- the text must be readable (high contrast with background, classic fonts, etc.)
+
+- remember that a good design improve the user scanning phase and reduce the time took to create a mental map of the site
+
+- separate big blocks of text with titles, emphasize them with keywords (SHORT!), use itemized lists: improving the scanning phase
+
+- avoid gambling clicks: users must reach what they expected (problem of hyper-association)
+
+- ...
