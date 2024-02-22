@@ -1,0 +1,206 @@
+Carichiamo la nuova lib
+```
+load('Leukemia.RData')
+```
+
+Nel mio caso:
+```
+load('/home/2/2013/dpolonio/Desktop/DataMining/Lab/Leukemia.RData')
+ls()
+```
+
+Non e' una matrice di dati, e non ha la classica  struttura righe x colonne, infatti se diamo `dim(Leukemia)` otteniamo `NULL`.
+Vediamo se e' una lista (che contiene qualsiasi tipo di dato anche di dimensione diversa):
+```
+is.list(Leukemia)
+```
+Che ci da TRUE. (Nota: vettori, matrici, liste sono supportate da R)
+
+Vediamo cosa contiene:
+```
+> names(Leukemia)
+[1] "x" "y"
+```
+
+`Leukemia$y` ci da se e' malato il paziente oppure no. Il numero degli elementi ci e' dato con `length(Leukemia$y)`. La dimensione la otteniamo con il solito comando `dim(Leukemia$x)`.
+Quindi avremo n=72 e p=3571.
+
+Creiamo il nostro modello di regressione lineare generalizzata:
+```
+m <- glm(y ~ x, data=Leukemia, family='binomial')
+```
+
+Se eseguiamo il `summary(m)` vediamo che non va bene questo tipo di analisi. Quindi dovremo usare delle tecniche di regolarizzazione e riduzione.
+1 - La selezione automatica: non e' possibile fare in quanto ci sono solo 72 dati, e quindi non abbastanza per stimare tutti i parametri richiesti.
+2 - Regolarizzazione: per schiacciare i coefficenti verso 0 partendo dai dati cosi' come sono
+3 - Componenti principali: per ridurre drasticamente la dimensione del problema, e ridurlo a un sottoinsieme molto piu' piccolo (puo' essere complicato da interpretare il risultato).
+
+La scelta tra 2 e 3 va un po' a piacere.
+Carichiamo il pacchetto dell'altra volta:
+```
+library(glmnet)
+```
+
+Iniziamo con 2 (usiamo il metodo ridge).
+```
+leukemia.ridge <- glmnet(Leukemia$x, Leukemia$y, alpha=0, family='binomial')
+```
+Lanciamo il grafico per vedere il risultato:
+```
+plot(leukemia.ridge, xvar='lambda')
+```
+Vediamo i campi dentro ridge
+```
+names(leukemia.ridge)
+```
+
+Vediamo il summary del ridge:
+```
+summary(leukemia.ridge$lambda)
+```
+
+Ora ricalcoliamo il ridge ma prendiamo un valore di alpha minimo un po' piu' piccolo:
+```
+leukemia.ridge <- glmnet(Leukemia$x, Leukemia$y, alpha=0, family='binomial', lambda.min=1e-4)
+```
+
+Vediamo il risultato che abbiamo adesso:
+```
+summary(leukemia.ridge$lambda)
+```
+
+Come la volta scorsa scegliamo il lambda migliore, usando la cross validation.
+Eseguiamo il seed all'inizio e poi calcoliamo la cross validation:
+```
+set.seed(111)
+cv.leukemia.ridge <- cv.glmnet(Leukemia$x, Leukemia$y, alpha=0, family='binomial', lambda.min=1e-4)
+```
+
+Vediamo il lambda minimo tramite `names(cv.leukemia.ridge)`. Il lambda minimo e' visibile con `cv.leukemia.ridge$lambda.min`, mentre quello a 1se di distanza e' `cv.leukemia.ridge$lambda.1se`
+Ridisegniamo il grafico con le linee ora:
+```
+plot(leukemia.ridge, xvar='lambda')
+abline(v=log(cv.leukemia.ridge$lambda.min), lty=2, lwd=3)
+```
+Il ridge seleziona valori non tanto schiacciati verso 0, ovvero un gruppo con coefficenti molto lontani da 0. Siamo anche su una scala che vuole valori molto piccoli.
+Prendiamo i minimi `cv` e `cvm`.
+```
+min(cv.leukemia.ridge$cv)
+min(cv.leukemia.ridge$cvm)
+```
+
+Vediamo li ridge finale con
+```
+leukemia.ridge.finale <- glmnet(Leukemia$x, Leukemia$y, alpha=0, family='binomial', lambda=cv.leukemia.ridge$lambda.min)
+leukemia.ridge.finale
+```
+Eseguiamo il grafico di cv:
+```
+plot(cv.leukemia.ridge)
+```
+Vediamo i nomi presenti dentro il ridge:
+```
+> names(leukemia.ridge)
+ [1] "a0"         "beta"       "df"         "dim"        "lambda"    
+ [6] "dev.ratio"  "nulldev"    "npasses"    "jerr"       "offset"    
+[11] "classnames" "call"       "nobs"      
+```
+Eseguiamo il grafico con:
+```
+plot(log(leukemia.ridge$lambda), leukemia.ridge$dev.ratio, type='l')
+```
+Tracciamo la linea del lambda minimo scelto:
+```
+abline(v=log(cv.leukemia.ridge$lambda.min), lty=2, lwd=3)
+```
+
+Ora vediamo il modello di regressione con _LASSO_. Il comando e' come quello di prima, solo che adesso il nostro `alpha` e' uguale a 1.
+```
+leukemia.lasso <- glmnet(Leukemia$x, Leukemia$y, alpha=1, family='binomial', lambda.min=1e-4)
+```
+Possiamo gia' da subito vedere come il comando e' piu' veloce. Questo ci suggerisce un maggior riduzione dei coefficenti. Se va tutto bene dovremmo trovare meno confusione rispetto al grafico del ridge.
+```
+plot(leukemia.lasso, xvar='lambda')
+```
+C'e' una riduzione dei termini enorme come possiamo vedere, e otteniamo poche espressioni significative(?).
+Calcoliamo il LASSO:
+```
+cv.leukemia.lasso <- cv.glmnet(Leukemia$x, Leukemia$y, alpha=1, family='binomial', lambda.min=1e-4)
+```
+
+Vediamo che ora il nostro lambda minimo e' `cv.leukemia.lasso$lambda.min` che e' 0.0005538157. Questo valore e' ancora piu' piccolo di ridge (anche se bisogna prestare attenzione al fatto che non sono confrontabili in quanto sono funzioni differenti). In ogni caso e' molto piccolo.
+Tracciamolo nel grafico (insieme all'1se) con
+```
+abline(v=log(cv.leukemia.lasso$lambda.min), lty=2, lwd=3)
+abline(v=log(cv.leukemia.lasso$lambda.1se), lty=2, lwd=3)
+```
+
+Qui 1se e' piu' spostata e seleziona meno var. Qui abbiamo piu' errore quadratico medio, ma e' importante che valutiamo se e' importante permdere un po' di quadratico medio ma avere un numero minore di var(?)
+```
+min(cv.leukemia.lasso$cvm)
+min(cv.leukemia.ridge$cvm)
+```
+
+Ora calcoliamo il cvm:
+```
+cv.leukemia.lasso$cvm[cv.leukemia.lasso$lambda==cv.leukemia.lasso$lambda.1se]
+```
+Vediamo quando perdiamo di errore quadratico medio calcolando:
+```
+(0.209-0.144)/0.209
+```
+Qui perdiamo il 30%.
+Con il ridge:
+```
+(0.171-0.144)/0.171
+```
+Solo il 15%. In ogni caso la prof non porterebbe ridge con tutte le variabili in quanto per un'analisi ci sarebbero troppe informazioni, ed e' meglio portare un gruppo di variabili piu' significative che tutte quante.
+Calcoliamo il massimo della devianza spiegata:
+```
+max(leukemia.lasso$dev.ratio)
+```
+Anche se meno del ridge la devianza spiegata e' quasi al 100%.
+Vediamo il lasso finale quindi:
+```
+leukemia.lasso.finale <- glmnet(Leukemia$x, Leukemia$y, alpha=1, family='binomial', lambda=cv.leukemia.lasso$lambda.min)
+
+leukemia.lasso.finale1se <- glmnet(Leukemia$x, Leukemia$y, alpha=1, family='binomial', lambda=cv.leukemia.lasso$lambda.1se)
+```
+Vediamo i coefficenti con `coef(leukemia.lasso.finale)`.
+Ora estraiamo tutti i coefficenti zero:
+```
+id.zero <- which(coef(leukemia.lasso.finale)==0)
+```
+Vediamo la lunghezza di id.zero con `length(id.zero)`
+Su 3571 lui ne vede 3541 (`dim(Leukemia$x)`) a zero.
+Ora calcoliamo tutti gli id che non sono 0
+```
+id.nonzero <- which(coef(leukemia.lasso.finale) != 0)
+length(id.nonzero)
+```
+
+Questo ci da 31 variabili NON zero.
+Il comando per estrarre il nome delle variabili che non sono zero e' questo:
+```
+varnames <- rownames(coef(leukemia.lasso.finale))[id.nonzero]
+values.nonzero <- coef(leukemia.lasso.finale)[id.nonzero]
+names(values.nonzero) <- varnames
+```
+Vediamo tutte le variabili non zero con i nomi:
+```
+values.nonzero
+```
+Si dovrebbe fare lo stesso procedimento se si volesse fare con lambda o con 1se.
+```
+id.nonzero1se <- which(coef(leukemia.lasso.finale1se) != 0)
+```
+
+La lunghezza di variabili non zero con 1se e':
+```
+length(id.nonzero1se)
+```
+Che sono 17 + intercetta, che sono meno rispetto a lambda minimo.
+
+###########################################3
+
+Cambiamo argomento, e parliamo della riduzione del problema

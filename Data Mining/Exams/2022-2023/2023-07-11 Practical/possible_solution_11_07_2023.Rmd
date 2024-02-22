@@ -1,0 +1,373 @@
+---
+title: "Loan Dataset Analysis"
+author: "Possible Solution"
+date: "11/07/2023"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	fig.align = "center",
+	message = FALSE,
+	warning = FALSE,
+	out.height = "300px"
+)
+knitr::opts_chunk$set(fig.align = 'center', out.height = '300px')
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+
+# clean environment 
+rm(list=ls())
+```
+
+# Disclaimer
+The file contains a possible solution for the exam. It has been considered a good work by professor, but still there can be some errors.
+
+# First Part
+First of all, we load the dataset and we control the correctness of the type of all variables. Then we trunk the dataset.
+```{r, results='hide'}
+# set environment and load data
+setwd("undefined") #you need to put the path to the working directory
+load("loan.RData")
+
+# check if dataset is right
+summary(loan)
+is.factor(loan$duration)
+is.factor(loan$history)
+is.factor(loan$purpose)
+is.factor(loan$amount)
+is.factor(loan$bankaccount)
+is.factor(loan$gender)
+is.factor(loan$job)
+is.factor(loan$otherloans)
+is.factor(loan$property)
+is.factor(loan$age)
+is.factor(loan$house)
+is.factor(loan$unemployed)
+is.factor(loan$maintenance)
+is.factor(loan$foreign)
+is.factor(loan$customer)
+
+
+#transform customer
+loan$customer <- as.factor(loan$customer)
+is.factor(loan$customer)
+
+# reduce dataset
+data.trunk <- loan[,c('customer', 'duration', 'amount', 'history', 'purpose')]
+summary(data.trunk)
+```
+
+The response variable is a categorical one (*customer*). Since it has only two levels, we will consider a logistic regression model.
+
+Let's look into the relationships among the response variable and the covariates.
+
+The relationship among *customer* and *duration* seems to be significant, as boxes have different dimensions.
+In addition medians are not at the same level and tails have different lengths. The same applies to the relationship between *customer* and *amount*, but it's not really clear.
+
+```{r, out.width="100%"}
+par(mfrow=c(1,2))
+boxplot(data.trunk$duration ~ data.trunk$customer)
+boxplot(data.trunk$amount ~ data.trunk$customer)
+```
+
+The relationship among *customer* and *history* seems to be significant, as boxes have different dimensions and they are not overlapping each other. The same applies to the relationship between *customer* and *purpose*.
+
+```{r, out.width="100%"}
+par(mfrow=c(1,2))
+mosaicplot(table(data.trunk$customer, data.trunk$history), main="Customer vs History")
+mosaicplot(table(data.trunk$customer, data.trunk$purpose), main="Customer vs Purpose")
+```
+
+Now let's look at the interactions among covariates.
+
+Consider the interaction between 2 numerical covariates.
+
+The graph suggests a positive linear relationship between *duration* and *amount*.
+```{r, out.width="100%"}
+par(mfrow=c(1,1))
+plot(x=data.trunk$duration, y=data.trunk$amount)
+```
+
+The intuition is correct, as show in the following correlation table.
+```{r, out.width="100%"}
+cor(data.trunk[,c('duration', 'amount')])
+```
+
+Focus now on the interaction between 1 numerical and 1 qualitative covariate.
+
+Fix the numerical covariate *duration*.
+
+The interaction between *duration* and *history* could be significant, as boxes are not completely overlapping, there are different tails and also medians are different. Generally speaking, it is possible to recognize different behaviors with respect to different levels.
+```{r, out.width="100%"}
+par(mfrow=c(1,2))
+boxplot(data.trunk$duration ~ data.trunk$customer, subset = data.trunk$history=='regular', main='Regular')
+boxplot(data.trunk$duration ~ data.trunk$customer, subset = data.trunk$history=='nonregular', main='Non-regular')
+```
+
+As we can see from the graphs interaction between *duration* and *purpose* could be significant, as boxes are not completely overlapping, there are different tails and also medians are different. So there are different behaviors with respect to different levels.
+```{r, out.width="100%"}
+par(mfrow=c(2,3))
+boxplot(data.trunk$duration ~ data.trunk$customer, subset = data.trunk$purpose=='business', main='Business')
+boxplot(data.trunk$duration ~ data.trunk$customer, subset = data.trunk$purpose=='car', main='Car')
+boxplot(data.trunk$duration ~ data.trunk$customer, subset = data.trunk$purpose=='education', main='Education')
+boxplot(data.trunk$duration ~ data.trunk$customer, subset = data.trunk$purpose=='house', main='House')
+boxplot(data.trunk$duration ~ data.trunk$customer, subset = data.trunk$purpose=='other', main='Other')
+```
+
+Fix the numerical covariate *amount*.
+
+The interaction between *amount* and *history* could be significant, as boxes are not completely overlapping, there are different tails and also medians are different. Generally speaking, it is possible to recognize different behaviors with respect to different levels.
+```{r, out.width="100%"}
+par(mfrow=c(1,2))
+boxplot(data.trunk$amount ~ data.trunk$customer, subset = data.trunk$history=='regular', main='Regular')
+boxplot(data.trunk$amount ~ data.trunk$customer, subset = data.trunk$history=='nonregular', main='Non-regular')
+```
+
+As we can see from the graphs interaction between *amount* and *purpose* could be significant, as boxes are not completely overlapping, there are different tails and some medians are different. So there are different behaviors with respect to different levels.
+```{r, out.width="100%"}
+par(mfrow=c(2,3))
+boxplot(data.trunk$amount ~ data.trunk$customer, subset = data.trunk$purpose=='business', main='Business')
+boxplot(data.trunk$amount ~ data.trunk$customer, subset = data.trunk$purpose=='car', main='Car')
+boxplot(data.trunk$amount ~ data.trunk$customer, subset = data.trunk$purpose=='education', main='Education')
+boxplot(data.trunk$amount ~ data.trunk$customer, subset = data.trunk$purpose=='house', main='House')
+boxplot(data.trunk$amount ~ data.trunk$customer, subset = data.trunk$purpose=='other', main='Other')
+```
+
+Focus now on the interaction between 2 qualitative covariates.
+
+The interaction among *history* and *purpose* could be significant, as boxes have different dimensions and they are not overlapping each other. So the following mosaicplot are showing the presence of a kind of interaction.
+```{r, out.width="100%"}
+par(mfrow=c(1,1))
+mosaicplot(table(data.trunk$history, data.trunk$purpose), main="History vs Purpose")
+```
+
+Let's estimate the logistic regression model. We will include all the covariates and their interactions first.
+```{r, out.width="100%"}
+m.plain1 <- glm(customer ~ duration*amount + duration*history + duration*purpose + amount*history + amount*purpose + history*purpose, data = data.trunk, family = binomial)
+summary(m.plain1)
+```
+
+We can perfom variable selection over the model, obtaining the following output.
+```{r, results='hide'}
+m.plain2 <- update(m.plain1, .~. - duration:purpose)
+summary(m.plain2)
+
+m.plain3 <- update(m.plain2, .~. - history:purpose)
+summary(m.plain3)
+
+m.plain4 <- update(m.plain3, .~. - amount:history)
+summary(m.plain4)
+```
+
+```{r, out.width="100%"}
+m.plain5 <- update(m.plain4, .~. - duration:history)
+summary(m.plain5)
+```
+
+After performing model selection, the resulting model is ***customer ~ duration + amount + history + purpose + duration:amount + amount:purpose***. We removed all the interactions, apart from *duration:amount* and *amount:purpose*. *purpose* and *amount:purpose* seem not to be significant for some levels, but since there one of their level significant, they cannot be removed.
+
+The accuracy of the model, based on the deviance is the following.
+```{r, out.width="100%"}
+1-pchisq(986.6, 879)
+```
+The accuracy of the model seems to be very low.
+
+By using *anova*, to compare the first fitted model (all covariates + interactions) and the last one, it looks like sticking on the simpler one is the right choice.
+```{r, out.width="100%"}
+anova(m.plain5, m.plain1, test='Chisq')
+```
+
+We can try to add polynomials to *duration* and *amount*.
+```{r, out.width="100%"}
+m.polynomial1 <- update(m.plain5, .~. + I(duration^2))
+summary(m.polynomial1)
+```
+Polynomials for *duration* seem not to be significant.
+
+```{r, out.width="100%"}
+m.polynomial2 <- update(m.plain5, .~. + I(amount^2) + I(amount^3))
+summary(m.polynomial2)
+```
+Polynomials for *amount* seem to be significant, until the third degree.
+
+We can use either the model with the polynomials for *amount* or the initial resulting model. We prefer to use the model without the polynomials as it is simpler to handle.
+
+The predictions of the values gives the following error table.
+```{r, out.width="100%"}
+est.probs <- predict(m.plain5, type = 'response')
+preds <- rep(0, nrow(data.trunk))
+preds[est.probs>0.5] <- 1
+addmargins(table(predictions=preds, cliente=data.trunk$customer))
+```
+
+Here you can find the training error rate.
+```{r, out.width="100%"}
+(23+222)/892
+```
+The error rate is quite ok (~27%), which means that the model is a quite good fit for the reduced dataset and it is quite good on prediction on the same dataset.
+
+Plotting the *ROC* curve. The results not so accurate.
+```{r, out.width="100%"}
+library(pROC)
+curve.roc <- roc(data.trunk$customer, est.probs)
+
+par(mfrow=c(1,1))
+plot(curve.roc, legacy.axes=TRUE, xlim=c(1.0, 0.0), print.auc=TRUE,
+auc.polygon=TRUE)
+```
+
+Based on the fitted logistic regression model, *customer* is associated with:
+\begin{itemize}
+\item *duration*: more high is the duration of the loan, there is less probability to have repaid the loan;
+\item *amount*: more high is the amount of the loan, there is less probability to obtain the loan back from the customer;
+\item *history*: if the customer haven't repaid previous loans, there is less possibility the customer will repay the loan than the one that have repaid his loans in the past;
+\item *purpose*: if the customer take a loan for business, there is more possibility the customer will repay the loan than the other purposes. For each level if the estimate is lower implies a less possibility to have the loan repaid by the customer.
+\end{itemize}
+There are also the interaction between covariates *duration:amount* and *purpose:amount*.
+
+\newpage
+
+# Second part
+```{r, results='hide'}
+data.full <- loan
+summary(data.full)
+```
+Considering all the variables of the dataset. We will use all the covariates and the interaction *duration:amount* and *amount:purpose*, that we saw being relevant on the first part.
+
+## *GLM* 
+```{r, out.width="100%"}
+m.glm <- glm(customer ~ . + duration:amount + amount:purpose, data = data.full, family = 'binomial')
+summary(m.glm)
+```
+
+Which gives the following accuracy, based on the deviance.
+```{r, out.width="100%"}
+1 - pchisq(929.76, 868)
+```
+
+## *Ridge*
+Let's try to use *Ridge* to find the best model for the dataset provided.  
+```{r, results='hide'}
+library(glmnet)
+X <- model.matrix(m.glm)[,-1]
+m.ridge <- glmnet(x=X, y=data.full$customer, alpha = 0, family = 'binomial')
+```
+
+We will use the following seed to find the best lambda.
+```{r, echo=TRUE}
+set.seed(222)
+```
+
+```{r, results='hide'}
+m.ridge.cv <- cv.glmnet(x=X, y=data.full$customer, alpha=0, family = 'binomial')
+```
+
+The best lambda can be found in the following graph. There is also the graph of the coefficients with respect to the different value of lambda.
+```{r, out.width="100%"}
+par(mfrow=c(1,2))
+plot(m.ridge.cv)
+plot(m.ridge, xvar="lambda")
+abline(v=log(m.ridge.cv$lambda.min), lty=2)
+```
+
+```{r, results='hide'}
+# refit with minimum lambda
+m.ridge.min <- glmnet(x=X, y=data.full$customer, alpha=0, family = 'binomial',
+lambda=m.ridge.cv$lambda.min)
+```
+
+The values of the coefficients are the following. Obviously, no model selection has been made since we are using *Ridge* regression.
+```{r, out.width="100%"}
+cbind(coef(m.glm), coef(m.ridge.min))
+```
+We can see that *Ridge* has penalized a lot of coefficients and it has given more importance to others.
+
+## *Lasso*
+Let's try to use *Lasso* and check if there is model selection. We will compare the results with the ones from *Ridge* later.
+```{r, results='hide'}
+# run lasso 
+m.lasso <- glmnet(x = X, y = data.full$customer, alpha = 1, family = 'binomial')
+
+m.lasso.cv <- cv.glmnet(x = X, y = data.full$customer, alpha = 1, family = 'binomial')
+
+m.lasso.min <- glmnet(x = X, y = data.full$customer, alpha = 1, family = 'binomial', lambda = m.lasso.cv$lambda.min)
+```
+
+The best lambda can be found in the following graph. There is also the graph of the coefficients with respect to the different value of lambda.
+```{r, out.width="100%"}
+par(mfrow=c(1,2))
+plot(m.lasso.cv)
+plot(m.lasso,  xvar="lambda")
+abline(v = log(m.lasso.cv$lambda.min), lty = 2)
+```
+
+*Lasso* has performed model selection, in fact many coefficients are equal to 0.
+```{r, out.width="100%"}
+cbind(coef(m.glm), coef(m.ridge.min), coef(m.lasso.min))
+```
+From these coefficients, it's possible to understand which is the best model obtained with *Lasso*.
+
+The graphs of the explained deviance of *Lasso* and *Ridge* are the following.
+```{r, out.width="100%"}
+par(mfrow=c(1,2))
+plot(log(m.ridge$lambda), m.ridge$dev.ratio, type='l',
+xlab=expression(log(lambda)), ylab='Explained deviance Ridge')
+abline(v=log(m.ridge.cv$lambda.min), lty=2)
+plot(log(m.lasso$lambda), m.lasso$dev.ratio, ylab = 'Explained Deviance Lasso', type ='l')
+abline(v = log(m.lasso.cv$lambda.min), lty = 2)
+```
+
+The maximum explained deviances, obtained with the minimum lambda (from *Ridge* and *Lasso*), are the following.
+```{r, out.width="100%"}
+m.ridge$dev.ratio[m.ridge$lambda==m.ridge.cv$lambda.min]
+m.lasso$dev.ratio[m.lasso$lambda == m.lasso.cv$lambda.min]
+```
+*Ridge* performs better than *Lasso*, as the explained deviance shows. Therefore *Ridge* seems to be preferable respect to this parameter, but the explained deviance is pretty low.
+
+```{r, results='hide'}
+library(boot)
+m.glm.cv <- cv.glm(data.full, m.glm)
+```
+
+The *MSE*s for the two models are the following (1$^{st}$ *Ridge*, 2$^{nd}$ *Lasso*).
+```{r, out.width="100%"}
+min(m.ridge.cv$cvm)
+min(m.lasso.cv$cvm)
+```
+In conclusion, *Ridge* seems to be preferable also in terms of *MSE* against the model fitted by *Lasso*.
+
+Based on the model fitted with *Ridge*, *customer* is associated with:
+\begin{itemize}
+\item *duration*: more high is the duration of the loan, there is less probability to have repaid the loan;
+
+\item *history*: if the customer hasn't repaid previous loans, there is less probability the customer will repay the loan than the one that have repaid his loans in the past;
+
+\item *purpose*: if the customer takes a loan for business, there is more probability the customer will repay the loan than the other purposes. For each level if the estimate is lower than 0 implies a less probability to have the loan repaid respect to the loan for business, else implies a more probability to have the loan repaid by the customer respect to the loan for business;
+
+\item *amount*: more high is the amount of the loan, there is less probability to obtain the loan back from the customer;
+
+\item *bankaccount*: if the customer hasn't a bank account, there is more probability the customer will repay the loan than the one that has a bank account;
+
+\item *gender*: if the gender is female, there is less probability the customer will repay the loan than a male;
+
+\item *job*: if the customer hasn't any job, there is more probability the customer will repay the loan than the one that has a job;
+
+\item *otherloans*: more high is the number of the loan, there is less probability to obtain the loan back from the customer;
+
+\item *property*: if the customer hasn't any property, there is less probability the customer will repay the loan than the other levels. For the other levels more high is the estimate, there is more probability to repay the loan by the customer;
+
+\item *age*: more high is the age, there is more probability to obtain the loan back from the customer;
+
+\item *house*: if the customer owns an house, there is less probability the customer will repay the loan than the one that has rented a house;
+
+\item *unemployed*: if the customer is employed, there is less probability the customer will repay the loan than the one that is unemployed;
+
+\item *maintenance*: if the customer are able to provide maintenance for 1, there is less probability the customer will repay the loan than the one that is able to provide maintenance for more than 1;
+
+\item *unemployed*: if the customer is not foreign, there is more probability the customer will repay the loan than the one that is foreign.
+\end{itemize}
+
+There are also the interaction between covariates *duration:amount* and *purpose:amount*.

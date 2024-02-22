@@ -1,0 +1,297 @@
+Carichiamo la nuova libreria:
+
+library(MASS)
+
+Carichiamo i dati come al solito
+
+data(Boston)
+
+I nomi sono:
+
+names(Boston)
+
+Visualizziamo il grafico dei dati:
+
+plot(Boston$lstat, Boston$medv)
+
+Come possiamo vedere, c'e' molta variabilita'. Probabilmente ci servirebbe un alto grado di polinomi, ma questo complicherebbe il grafico. Proviamo comunque ad aggiungere una variabile.
+Il modello originale sarebbe:
+
+modello <- lm(medv ~ lstat, data=Boston)
+
+Proviamo a creare un modello del genere:
+
+y=beta0 + beta1lstat + beta2 lstat^2 + espilon
+
+Riscriviamo il modello:
+
+modello2 <- lm(medv ~ lstat + I(lstat^2), data=Boston)
+
+Importante: quando si usa il quadrato si usano le parentesi altrimenti R non lo riconosce.
+Visuallizziamo il summary del modello
+
+summary(modello2)
+
+Dove otteniamo il seguente output:
+
+> summary(modello2)
+
+Call:
+lm(formula = medv ~ lstat + I(lstat^2), data = Boston)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-15.2834  -3.8313  -0.5295   2.3095  25.4148 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 42.862007   0.872084   49.15   <2e-16 ***
+lstat       -2.332821   0.123803  -18.84   <2e-16 ***
+I(lstat^2)   0.043547   0.003745   11.63   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 5.524 on 503 degrees of freedom
+Multiple R-squared:  0.6407,	Adjusted R-squared:  0.6393 
+F-statistic: 448.5 on 2 and 503 DF,  p-value: < 2.2e-16
+
+
+La statistica F mi conferma che e' tutto da tenere nel modello e che va bene. Anche i dati ci dicono che il modello va bene.
+
+Usiamo ora un'altra possibilita' per inserire polinomi nel modello. Questo si usa quando i polinomi nel modello sono alti (> 2 grado)
+
+modello.altro <- lm(medv ~ poly (lstat, 2), data=Boston)
+
+Il summary risulta essere:
+
+summary(modello.altro)
+
+L'output e':
+
+> summary(modello.altro)
+
+Call:
+lm(formula = medv ~ poly(lstat, 2), data = Boston)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-15.2834  -3.8313  -0.5295   2.3095  25.4148 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)       22.5328     0.2456   91.76   <2e-16 ***
+poly(lstat, 2)1 -152.4595     5.5237  -27.60   <2e-16 ***
+poly(lstat, 2)2   64.2272     5.5237   11.63$   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 5.524 on 503 degrees of freedom
+Multiple R-squared:  0.6407,	Adjusted R-squared:  0.6393 
+F-statistic: 448.5 on 2 and 503 DF,  p-value: < 2.2e-16
+
+
+Se confrontiamo i due modelli (quello con I e con poly) sono in teoria identici (F sono identiche). I coefficenti del parametri sono diversi. Questo perche' con il comando `poly` le variabili vengono scalata in maniera tale che la computazione sia piu' stabile. Quando pero' useremo la funzione `predit` il risultato sara' identico. A livello di analisi non cambia nulla.
+Ora visualizziamo il graifo dei residui, che ci direbbe che va bene ma che bisognerebbe migliorare:
+
+par(mfrow=c(2,2))
+plot(modello2)
+
+Vedremo come calcolare la statistica F e come effettuare il confronto tra modelli.
+La statistica F ci dice che se tutti i parametri esclusa l'intercetta sono tutti non significativi (ovvero pari a 0). F e' una funzione di R2:
+F=R2/(1-R2)*(n-p-1)/p
+Nota: R2 = R^2
+
+Quindi in calcolo di F sarebbe
+0,6407      503
+------   x  ---
+1-0,6407     2
+Che otteniamo F = 448.5 su 2 e 503 gradi di liberta'.
+Per calcolare il p-value esiste la funzione `pf`. Siccome vogliamo l'area a destra, faremo `1-l'area sinistra`, ovvero:
+1-pf(448.5,2,503)
+Che ci restituisce 0, confermando il risultato sopra.
+
+Se avessi due modelli annidati, non si parla di Devianza ma confronto tra R2. Il test e' analogo a quanto visto a lezione, solo che li lo avevamo chiamato test F.
+Abbiamo:
+1 - y = beta0 + beta1 lstat + espilon (p=1)
+2 - y = beta0 + beta1 lstat + beta2 lstat^2 + epsilong (p=2)
+
+Avremo quindi che R2_2 >= R2+1 con RSS_2 <= RSS_1
+
+Memo: la statistica F e' anche:
+F = RSS_1 - RSS_2   n-p-1
+    -------------   -----
+        RSS_2         q
+
+La somma dei quadrati dei residui e' (_residual standard error_):
+
+RSE = sqrt (RSS/n-2)
+
+In R, scriviamo:
+
+rss1 <- 6.216^2*(504)
+
+Stessa cosa nel modello piu' grande, che possiamo rivedere con summary(modello2)
+
+rss2 <- 5.524^2*(503)
+
+Ora possiamo calcolare la statistica F in R:
+
+f <- (rss1 - rss2)/rss2 * (504/1)
+
+Siccome osserviamo 135.4517 rifiutimo l'ipotesi di usare un modello piu' semplice per valori alti.
+Ora vediamo `qf`, che e':
+
+qf(0.95, 1, 504)
+
+Questo ci fa decidere dove accettare o rifiutare. In questo caso siamo abbondantemente nella zona di rifiuto in quanto otteniamo 3.859975. Questo perche' 135.4517 e' oltre il quantile per alpha = 0,05. Per avere l'area mi serve la probabilita', ma questa e' 1- il resto. In R scriviamo:
+
+1 - pf(f, 1, 504)
+
+Ottengo 0, e quindi in questo caso i dati sostengono che H0 e' da rifiutare.
+Questa procedura e' quella di valutazione di due modelli annidati.
+Ci sono due osservazioni da fare:
+1 - L'approccio non va fatto in quanto siamo insicuri: abbiamo visto due approcci diversi che pero' sono consistenti tra loro. Quello del p-value ci invita a guardare quanto quei dati sostengono l'ipotesi. Ristretto ai dati in esame
+2 - Questo approccio dice: la regione in cui vado a rifiutare e' composta da tutti quell'insieme di dati che vado a raccogliere che super 3.86. Soddisfa il principio di riesaminare il campione con dati diversi.
+Quindi ad una prova parziale e' possibile scegliere la strategia che ci aggrada di piu', in quanto in ogni caso sono concordi tra di loro.
+
+In questo caso il modello annidati sono due modelli con un minimo annidamento (l'annidamento avviene solo per un parametro). Quindi lo stesso tipo di risposta potevo ottenerlo vedendo solo il summary del modello. La statistica F con F(1, 504) e' pari a t^2.
+Vedendole infatti:
+$11.63^2
+
+Questo e' utile e per un parametro ci evita di fare un mucchio di calcoli.
+Ora che abbiamo finito con Boston, ripuliamo la console:
+
+rm(list=ls())
+
+E carichiamo i dati scaricati da moodle. Quando carichiamo i data-set esterni ci vuole un comando specifico in base all'estensione:
+- Per file .dat:
+read.table('file.dat')
+- Per i file .csv:
+read.cs2('file')
+Con il comando `setwd` si puo' settare la _path_ per poi caricare il file.
+Carichiamo i dati:
+
+dati <- read.csv2('Gender_Discrimination.csv', sep=',')
+
+Per verificare che l'import sia andato a buon fine posso dare:
+
+dim(dati)
+
+Dovremo ottenere 208 righe e 3 colonne.
+Vediamo i dati presenti:
+
+names(dati)
+
+E vediamo il suo `summary`:
+
+summary(dati)
+
+Possiamo notare come siano presenti delle variabili qualitative. Per verificare se R ha capito se una variabile e' qualitativa o meno digitiamo:
+
+is.factor(dati$Gender)
+
+In questo caso otteniamo TRUE. Possiamo anche vedere i livelli presenti in una variabile con:
+
+levels(dati$Gender)
+
+Vogliamo inserire le variabili in un modello di regressione lineare. Costruiamo un bloxplot:
+
+boxplot(dati$Salary)
+
+Vediamo il suo istogramma:
+
+hist(dati$Salary)
+
+Con la variabile qualitativa possiamo usare il grafico a torta, che si fa in questa maniera:
+
+pie(table(dati$Gender))
+
+Dove `table` ci dice la quantita' di maschi e femmine.
+Tracciamo ora il grafico a scatole tra il salario e il genere:
+
+boxplot(dati$Salary ~ dati$Gender, col=c('pink', 'blue'))
+
+Possiamo vedere come la scatola dei maschi sia piu' grande: questo ci dice che c'e' piu' variabilita' nei maschi, e la loro mediana e' maggiore. A occhio quindi potrei dire che se la aggiungessi al modello otterrei qualcosa di significativo. Proviamo a veder se anche l'esperienza centra:
+
+boxplot(dati$Experience ~ dati$Gender, col=c('pink', 'blue'))
+
+Un'altra cosa che ci serve e' distinguere il salario dall'esperienza (ovvero la Y). Per fare cio' costruiamo un grafico di dispersione tra la Y e la Exp, e poi distingueremo tra maschi e femmine:
+
+plot(dati$Experience, dati$Salary, xlab='Anni di esperienza', ylab='Stipendio annuale')
+
+Possiamo vedere come c'e' molta dispersione. Al crescere dell'esperienza si allargano i punti. Una retta di regressione di sicuro ci sta. Ora proviamo a inserire i maschi e le femmine nel grafico.
+Prendiamo i punti (esperienza e salario) solo di quelli di donne:
+
+points(dati$Experience[dati$Gender == 'Female'], dati$Salary[dati$Gender == 'Female'], col='pink')
+points(dati$Experience[dati$Gender == 'Male'], dati$Salary[dati$Gender == 'Male'], col='blue')
+
+Facciamo lo stesso per i maschi. Aggiungiamo una legenda al tutto:
+
+legend('topleft', pch=c(1,1), col=c('pink', 'blue'), legend=c('Female', 'Male'))
+
+Dove:
+- pch e' il tipo di puntino che vogliamo. 1 e' il circoletto vuoto.
+
+Ora costruiamo il modello:
+
+modello <- lm (Salary ~ Gender + Experience, data=dati)
+
+Ora vediamo il suo summary:
+
+summary(modello)
+
+Possiamo fare anche:
+
+Salary = beta0 + beta1 T (Gender::Male) + beta2Experience + epsilon
+
+Con questo il modello stima due rette parallele (?)
+Possiamo calcolare la retta stimata per Female, che sarebbe pari a 
+y stimato = 53260 + 1744.6 * Experience
+Mentre per i maschi:
+y stimato = 53260 + 17020.6 + 1744.6 * Experience
+Tracciamo la media sul nostro grafico per femmine e uomini:
+
+abline(53260, 1744.6, col='pink')
+abline(53260+17020.6, 1744.6, col='blue')
+
+Con il comando `coef` possiamo vedere il coefficente del modello:
+
+coef(modello)
+
+Creiamo un modello due con le seguenti variabili:
+
+modello2 <- lm(Salary ~ Gender * Experience, data=dati)
+
+Questo modello viene tradotto in R in questa maniera:
+
+modello2 <- lm(Salary ~ Gender + Experience + Gender: Experience, data=dati)
+
+I due comandi precedenti sono infatti uguali per R.
+Vediamo il risultato di R con il solito comando `summary(modello2)`.
+Creiamo la variabile coeff
+
+coeff <- coef(modello2)
+
+E tracciamo le linee nel graifco:
+
+abline(coeff[1], coeff[3], col='pink', lwd=3, lty=2)
+abline(coeff[1]+coeff[2], coeff[3]+coeff[4], col='blue', lwd=3, lty=2)
+
+Per vedere la previsione Male con 25 anni di esperienza dobbiamo dare:
+
+coeff[1]+coeff[2]+coeff[3]*25+coeff[4]*25
+
+Ovvero la previsione che ci da e' di 127123.2
+Per Female invece il conto da fare e':
+
+coeff[1]+coeff[3]*25
+
+Che ci da 83001.37. R ci fornisce questa possibilita' da solo, con il comando `predict`:
+
+predict(modello2, newdata=data.frame(list(Gender='Male', Experience=25)))
+
+Dove:
+- I dati vanno passati sottoforma di lista
+Per le donne:
+
+predict(modello2, newdata=data.frame(list(Gender='Female', Experience=25)))
