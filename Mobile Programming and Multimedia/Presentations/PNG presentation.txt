@@ -1,1 +1,0 @@
-Sources of the presentation are available here: https://github.com/albertolazari/computer-science/tree/main/mobile-programming/exam-presentation

@@ -1,0 +1,7 @@
+Create groups of two students and create a presentation with 2/3 slides with:
+	- example of positive design of a mobile application (correct usage of gestures, proper metaphor, correct use of instructions, just-in-time content, ...)
+	- example of a wrong design. 
+
+Provide at least one screenshot for each of the two examples and a brief description of the main points and why the design is correct or incorrect. For the wrong example, provide a possible solution to resolve the problem. 
+
+The presentation will be held during the lesson on May 2nd (max 10 minutes for each group). 
