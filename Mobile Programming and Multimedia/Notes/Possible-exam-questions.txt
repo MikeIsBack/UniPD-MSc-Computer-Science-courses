@@ -1,0 +1,3 @@
+The following questions are a collection of topics which the Professor classified as a possible exam oral questions during classes.
+
+1) Discuss about the 4 different framework classes.
