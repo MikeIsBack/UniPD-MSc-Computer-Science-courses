@@ -1,0 +1,12 @@
+Exercise on cross-platform development frameworks
+
+Choose a framework for cross-platform development that was not discussed during the lessons  (Cordova, Solar 2D, Flutter, ReactNative) and classify it according to Raj and Tolety classification. Prepare a presentation of 5 minutes (max 5 slides) which briefly introduces :
+
+the chosen framework, 
+why you choose it;
+its classification.
+The presentation must contain references to the used documentation.
+
+This exercise must be done in groups of two students and will be presented on the 19th March 2024.
+
+The presentation must be uploaded before 15th March 2024 1.00 p.m.
