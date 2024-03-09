@@ -1,5 +1,8 @@
-1) *Resource Sharing Platform*: Create an online platform where people can share underutilized resources such as tools, sports equipment, books, etc. This would promote sharing and waste reduction. 
+*RESOURCE SHARING PLATFORM*
+
+PROBLEM: reducing the industry enviromental impact
+
+IDEA: Create an online platform where people can share underutilized resources such as tools, sports equipment, books, etc. 
+This would promote sharing and waste reduction. 
     - Registered users can provide the list of all their sharable tools and they can decide lending and payment modalities.
     - It is possible to earn making subscriptions that provide other functionalities or thinking about sales commissions.
-
-2) *Materials Recycling and Reuse Platform*: An online platform that connects businesses with surplus materials or products to organizations or individuals who can reuse or recycle them, helping to reduce waste.
