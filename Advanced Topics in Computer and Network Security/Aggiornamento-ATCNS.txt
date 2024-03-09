@@ -1,9 +1,0 @@
-La prima fase del lavoro si concentra sull'analizzare le proprietà di un canale wireless generale, in particolare sull'osservare il suo comportamento nella trasmissione di segnali wireless. 
-
-Metodi di misurazione ritenuti interessanti per l'esperimento in questione risultano essere:
--) fading: effettuiamo diverse simulazioni "standard" (senza aggiunta di rumore) variando potenza e distanza trasmettitore-ricevitore (1-100m per bluetooth ma ci spingiamo anche fino ai 150m)
-
--) fading con additive noise: successivamente aggiungiamo nella misurazione del fading anche del rumore (casuale, basato sull'approccio n.2 discusso in precedenza).
-
-
-....quello che facciamo oggi....
