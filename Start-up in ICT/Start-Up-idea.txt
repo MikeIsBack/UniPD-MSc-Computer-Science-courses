@@ -1,8 +1,15 @@
-*RESOURCE SHARING PLATFORM*
+=========================
+RESOURCE SHARING PLATFORM
+=========================
 
-PROBLEM: recycle underutilized goods/tools at home
+PROBLEM: Reduce the waste of underutilized personal resources providing an effective way to make full use of them
 
 IDEA: Create an online platform where people can share underutilized resources such as tools, sports equipment, books, etc. 
-This would promote sharing and waste reduction. 
-    - Registered users can provide the list of all their sharable tools and they can decide lending and payment modalities.
-    - It is possible to earn making subscriptions that provide other functionalities or thinking about sales commissions.
+
+PROS:
+- This would promote sharing and waste reduction --> reducing enviromental impact of industry. 
+- This platform provides a way to get useful resources for a cheaper price instead buying them (for using just one time).
+
+FURTHER CONSIDERATIONS:
+- Registered users can provide the list of all their sharable tools and they can decide lending and payment modalities.
+- It is possible to earn making subscriptions that provide other functionalities or thinking about sales commissions.
