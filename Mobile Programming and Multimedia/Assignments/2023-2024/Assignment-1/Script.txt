@@ -1,0 +1,31 @@
+SLIDE 1
+Just a small introduction about team members and the name of the chosen framework.
+
+
+SLIDE 2
+Instant Developer Cloud is an italian framework for cross-platform development born in Bologna from the company "Instant Developer", the mission of Instant Developer is to bring digital innovation among those companies who decide to use it, offering a complete environment where it is possible to develop webapp, PWA and mobile apps for both Android and iOS operating systems.
+
+Instant Developer can be used by freelance developers and the larger enterprise IT teams to develop digital solutions for their customers. 
+
+It is possible to get a trial version (Community license) of the framework for free without any time limit but with a limit on resources that it is possible to use for your project (e.g. just 1GB of cloud space). After the trial period for individuals who decide to work with Instant Developer Cloud, it is possible to buy the premium license which allows to use all the development tool offered by the framework.
+There are also other bundles to manage the deployment of your application, basically depending whether developers want to use the cloud platform offered by the framework or not. 
+
+The developed application can run on the main desktop platforms, such as Windows and macOS, and on the mobile OS, such as Android and iOS. 
+
+Applications are developed with the standard web technologies (HTML, CSS, JavaScript). This in fact, reduce the learning curve for web developers and can represent an andvantage for those who do not want to learn another language. 
+
+
+SLIDE 3
+We decided to choose this framework because it is not well-known and typically when you search for cross-platform framework, in most of the case it is not mentioned. So for us it has been interesting and challenging investigate on this framework. 
+
+Another reason is that the framework developers ensure the framework is costantly updated following the latest versions of the technologies for the web development. 
+
+There is an help desk service where customers can talk with the developers team of instant developer for any trouble they are facing with their projects. Furthermore, there is a community forum for developers who use this framework. 
+
+The framework is well documented, even if the documentation is available only in italian. 
+
+Then there is also an online platform provided by instant developer company which offers tutorial and online course to learn how the framework works. 
+
+So, at the end, there is a lot of support by the developers and this represents an advantage for those who decide to choose this framework to develop applications. 
+
+...list some known customers...  
