@@ -2,7 +2,7 @@
 1. PERSONAL DOCUMENTS MANAGER
 =============================
 
-PROBLEM: difficulty in retrieving personal digital documents to share when requested (such as passport, identity card, educational qualifications, any kind of certification, etc.) 
+PROBLEM: difficulty in retrieving personal digital documents to share when requested (such as identity card, educational qualifications, any kind of certification, etc.) 
 --> possible scenarios: job applications, bonus applications
 
 
