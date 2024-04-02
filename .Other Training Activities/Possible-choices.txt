@@ -20,5 +20,5 @@ IDEA OF POSSIBLE CHOICES
 - Course on transversal and soft skills (2 CFU) 
   [taken in italian, twice a year (one for semester?)]
 
-- Advanced ICT Certification?? (2 CFU)
-  [search for more information about the recognized certifications]
+- Advanced ICT Certification (2 CFU) 
+  [Reactive Architecture courses (https://academy.lightbend.com/): 1) Introduction to reactive system; 2) Domain Driven Design; 3) Reactive microservices]
