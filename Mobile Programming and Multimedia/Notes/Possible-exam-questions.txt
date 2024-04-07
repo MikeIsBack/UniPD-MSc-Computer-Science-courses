@@ -1,4 +1,0 @@
-The following questions are a collection of topics which the Professor classified as a possible questions at the oral exam.
-
-1) Discuss about the Raj and Tolety's classification for cross-platform development frameworks.
-2) Discuss about El-Kassan classification for cross-platform development approaches.
