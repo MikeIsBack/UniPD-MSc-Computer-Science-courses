@@ -1,0 +1,20 @@
+Cose da tener conto:
+1.	I controlli più usati frequentemente vanno nella confort zone e devono essere a portata di pollice;
+2.	I controlli che modificano i dati devono essere posti all’esterno di questa zona;
+3.	Content always on top: se il dito oscura parte dell’interfaccia è importante che il contenuto venga traslato sopra al dito e non sotto, i dati importanti devono rimanere visibili. I contenuti devono essere inseriti al centro e i controlli sempre sopra, sotto o ai lati. Però se l’applicazione richiede continua modifica dei dati i controlli devono essere inseriti nella confort zone.
+4.	Vedere se c’è l’evento hover, primo tap hover e secondo tap consiste nell’operazione;
+5.	I pulsanti devono essere di almeno 7 mm e possono arrivare a 9 mm, devono diventare più grandi quando si esce dalla confort zone;
+6.	Le interfacce non devono essere affollate, se gli elementi sono vicini devono essere più grandi, se gli elementi sono piccoli devono essere più lontani per evitare errori. Due bottoni di 7 mm devono distare almeno 2 mm;
+7.	Interfacce just-in-time: le interfacce devono fornire solo quello che serve al momento giusto. Le operazioni principali devono essere svolte selezionandole da una lista e devono essere disponibili facilmente rimandando i dettagli ad un interazione successiva;
+8.	Osservare se alcuni tap possono essere eliminati o se l’aggiunta di tap migliorerebbe l’interfaccia;
+9.	L’uso della tastiera deve essere evitato.
+10.	Gesture
+a.	Sufficientemente complicate da essere intenzionali;
+b.	Sufficientemente semplici da non far perdere il contesto;
+11.	Se possibile, eliminare i bottoni per favorire le gesture. I bottoni non devono coprire il contenuto.
+12.	Metafora: vedere se l’applicazione fa uso corretto delle metafore;
+13.	Aiuti per l’utente: se le gesture corrispondono al mondo reale non servono istruzioni. Le gesture del sistema operativo non possono essere utilizzate dall’applicazione. 
+14.	Le gesture sono spesso invisibili, per cui occorre in certi casi insegnare la gesture all’utente. Alcune sono ovvie ma solo dopo averle scoperte. Bisogna evitare i manuali e favorire l’educazione just-in-time. Devono essere insegnate con gradualità durante l’utilizzo dell’applicazione e si imparano utilizzandole. Quindi favorire un tutorial che permetta di provare le gesture. Vedere se si sono i vari casi:
+a.	Coaching: fornire istruzioni quando il problema si verifica per la prima volta. Chiedere di eseguire la gesture e di eseguirla molte volte e poi mai più;
+b.	Leveling-up: insegnare le cose più complesse solo quando l’utente lo ritiene necessario. Iniziare prima le cose essenziali e basiche;
+c.	Power up: gesture che facilitano o velocizzano l’interazione utente
