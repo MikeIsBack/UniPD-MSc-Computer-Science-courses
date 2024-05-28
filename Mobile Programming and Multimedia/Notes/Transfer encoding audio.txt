@@ -1,0 +1,2 @@
+Transfer encoding: we are not able to recognize the audio compressed file from the original one. 
+This if we have a 2.1 bits per sample (multiply for frequencies of samples) we have a transfer encoding otherwise not. 
