@@ -1,0 +1,155 @@
+Scaletta logica algoritmo:
+
+# Segnali ad onda quadra - successivamente, diventeranno sinuisoidali con una trasformazione che faremo
+# LOS - senza interferenze
+
+# Generazione potenza di trasmissione in milliwatt (randi) per tutte le distanze
+# Generazione potenza di chiave in milliwatt (randi) per tutte le distanze
+
+- dato = randi(0, 1, 100) #100 bit
+- chiave = randi(0, 1, 100) #100 bit
+
+# Invio del segnale con certa potenza
+
+segnale_inviato = mix_signal(dato, chiave, potenza_dato, potenza_chiave);
+
+# Calcolo potenze per threshold (trasformazione sinusoidale)
+
+p_min_dato = min(dato)
+p_max_dato = max(dato)
+p_min_chiave = min(chiave)
+p_max_chiave = max(chiave)
+
+# Threshold fissate - Calcolo threshold = intervallo in ampiezza per dato e chiave
+# Ragionamento: Potenze trovate sono le thresholds
+
+Th_key- = p_min_chiave
+Th_key+ = p_max_chiave
+Th_mex- = p_min_dato
+Th_mex+ = p_max_dato
+
+# Valore iniziale casuale
+
+distanza = []
+received = []
+distanza = randi([1,150]); # valore casuale tra 1 e 150
+decoded_message = []
+decoded_key = []
+num_bit_errati = 0
+
+# Mandare il segnale e ricalcolo segnale al ricevitore (decodifica)
+# Threshold iniziali e verifichiamo quanto il segnale con rumori disti 
+
+for i=1 to n:
+    if(i == 0)  
+        distanza(i) = 5;
+    else
+        distanza(i) = distanza(i-1) + 5; # aumento in senso crescente (utile per plot)
+        
+    # Effetto canale su segnale ricevuto
+    received = simulazione_canale(segnale, distanza(i))
+
+    # Bit per bit sul segnale ricevuto con disturbo
+    for j=1 to n:
+        # Decodifica effettiva messaggio
+        decoded_message(j) = 1 se received(j) > 0 (center), 0 if received < 0
+    
+        # Poi diventa così con le due threshold (fare gli if qui)
+        (if received > center 1 if > Th_mex+, 0 if <Th_mex+)
+        (if received < center 1 if > Th_mex-, 0 if <Th_mex-)
+
+        # Decodifica effettiva chiave
+        decoded_key(j) = 1 se received(j) > 0 (center), 0 if received < 0
+
+        # Poi diventa così con le due threshold (fare gli if qui)
+        (if received > center 1 if > Th_key+, 0 if <Th_key+)
+        (if received < center 1 if > Th_key-, 0 if <Th_key-)
+
+        # Ricostruzione dei segnali messaggio e chiave
+        
+
+        # Calcolo numero bit errati con distanza di Hamming su dato e chiave
+        # n. bit diversi tra segnale mixato e segnale ricostruito
+
+        for k = 1 to n:
+            if decoded_key(i) != chiave(i)
+                num_bit_errati_key = num_bit_errati + 1
+            end
+            if decoded_message(i) != messaggio(i)
+                num_bit_errati_mex = num_bit_errati + 1
+            end
+        end
+
+        # BER - the number of bits received in error divided by the total number of bits transferred
+        # BER is obtained by comparing the transmitted and recovered data bit
+        # https://it.mathworks.com/help/bluetooth/ug/end-to-end-bluetooth-le-phy-simulation-using-path-loss-model-rf-impairments-and-awgn
+
+        BER_message(i) = num_bit_errati_key / length(decoded_message)
+        BER_key(i) = num_bit_errati_mex / length(decoded_key)
+end
+
+# Plot in ascissa distanza, in ordinata BER
+# per segnale dato (1) e segnale chiave (2)
+
+# Studio false alarm (solo messaggi autentici)
+# Studio missed detection (solo messaggi non autentici)
+
+# (1) Capire come i messaggi possono essere o non essere autentici
+# (2) Come utilizzare le BER
+
+
+# Plot unico false alarm e missed detection
+
+
+function segnale_inviato = mix_signal(dato, chiave, potenza_dato, potenza_chiave)
+    % Verifica e adattamento delle lunghezze del dato casuale e della chiave di autenticazione
+    if length(dato) > length(chiave)
+        chiave = [chiave, zeros(1, length(dato) - length(chiave))];
+    elseif length(dato) < length(chiave)
+        chiave = chiave(1:length(dato));
+    end
+    
+    % Inizializzazione del segnale mixato
+    segnale_inviato = zeros(1, length(dato));
+    
+    % Mixaggio del dato con la chiave utilizzando l'operatore XOR
+    for i = 1:length(dato)
+        segnale_inviato(i) = bitxor(dato(i), chiave(i));
+    end
+
+    % Potenzia il segnale di dato con la potenza fornita - conversione in
+    % dB
+    segnale_inviato = segnale_inviato .* 10.^(potenza_dato/20);
+
+    % Potenzia il segnale di chiave con la potenza fornita - conversion in
+    % dB
+    chiave_potenziata = chiave .* 10.^(potenza_chiave/20);
+
+    % Mixaggio dei segnali di dato e chiave
+    segnale_inviato = segnale_inviato + chiave_potenziata;
+end
+
+
+# Ricevo un segnale con il casino di Bluetooth e rumore intrinseco dato dalla distanza
+# Possono esserci più tipi di rumore: canale e strumentazione
+
+function received = simulazione_canale(segnale_trasmesso, distanza)
+    % Parametri del canale
+    fc = 2.4e9; % Frequenza del canale (2.4 GHz per Bluetooth)
+    c = 3e8; % Velocità della luce
+    lambda = c / fc; % Lunghezza d'onda
+    
+    % Attenuazione del segnale (path loss)
+    path_loss = (4 * pi * distanza) / lambda;
+	% https://en.wikipedia.org/wiki/Free-space_path_loss
+    segnale_attenuato = segnale_trasmesso / path_loss;
+    
+    % Fading (modello semplificato)
+	% https://it.mathworks.com/help/comm/ug/rayleigh-fading-channel.html
+    fading_factor = abs(randn(size(segnale_attenuato)));
+    segnale_fading = segnale_attenuato .* fading_factor;
+    
+    % Rumore termico (AWGN)
+    SNR_dB = 20; % Rapporto segnale/rumore desiderato (in dB)
+    segnale_ricevuto = awgn(segnale_fading, SNR_dB, 'measured');
+end
