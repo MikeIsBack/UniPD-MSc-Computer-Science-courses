@@ -1,0 +1,709 @@
+{
+  "@@locale": "en",
+  "lblWelcome": "Welcome to RoomFinder!",
+  "@lblWelcome": {
+    "description": "The welcome label to greet the new user"
+  },
+  "lblWelcomeMessage1": "Are you a student looking for a home or a host who wants to make his apartment available?",
+  "@lblWelcomeMessage": {
+    "description": "The welcome message to greet the new user"
+  },
+  "lblWelcomeMessage2": "This is the place for you!",
+  "@lblWelcomeMessage2": {
+    "description": "The welcome message to greet the new user"
+  },
+  "lblWelcomeMessage3": "Use ",
+  "@lblWelcomeMessage3": {
+    "description": "The welcome message to greet the new user"
+  },
+  "lblWelcomeMessage4": "RoomFinder ",
+  "@lblWelcomeMessage4": {
+    "description": "The welcome message to greet the new user"
+  },
+  "lblWelcomeMessage5": "to create or search for the most suitable solutions for you and to fully enjoy university life in your city.",
+  "@lblWelcomeMessage5": {
+    "description": "The welcome message to greet the new user"
+  },
+  "btnStart": "Let's start!",
+  "@btnStart": {
+    "description": "The button to start using the app"
+  },
+  "lblWelcomeNotLogged": "Welcome 😃",
+  "@lblWelcomeNotLogged": {
+    "description": "The welcome message to greet the unregistered user"
+  },
+  "lblWelcomeUser": "Welcome {name}! 😃",
+  "@lblWelcomeUser": {
+    "description": "The welcome message to greet the returning user",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "lblFindRoom": "Find the solution that best suits your needs:",
+  "@lblFindRoom": {
+    "description": "The label to find the best solution for the user"
+  },
+  "lblEnterCity": "Enter a city",
+  "@lblEnterCity": {
+    "description": "The label to enter the city"
+  },
+  "lblExploreSolutions": "Or explore the latest adverts placed:",
+  "@lblExploreSolutions": {
+    "description": "The label to explore the latest adverts"
+  },
+  "btnExpandSolution": "View the solution",
+  "@btnExpandSolution": {
+    "description": "The button to view the solution"
+  },
+  "btnSearch": "Search",
+  "@btnSearch": {
+    "description": "The button to search for a room"
+  },
+  "btnSavedAds": "Saved",
+  "@btnSavedAds": {
+    "description": "The button to view the saved adverts"
+  },
+  "btnChat": "Chat",
+  "@btnChat": {
+    "description": "The button to chat with the hosts"
+  },
+  "btnProfile": "Profile",
+  "@btnProfile": {
+    "description": "The button to view the user profile"
+  },
+  "btnAds": "Ads",
+  "@btnAds": {
+    "description": "The button to view the published adverts"
+  },
+  "lblFilters": "Filters",
+  "@lblFilters": {
+    "description": "The label to set the filters"
+  },
+  "lblPriceRange": "Price range",
+  "@lblPriceRange": {
+    "description": "The label to set the price range"
+  },
+  "lblPriceDesc": "Security deposit excluded",
+  "@lblPriceDesc": {
+    "description": "The description to clarify that the security deposit is not included in the price"
+  },
+  "lblMin": "Minimum",
+  "@lblMin": {
+    "description": "The label to set the minimum price"
+  },
+  "lblMax": "Maximum",
+  "@lblMax": {
+    "description": "The label to set the maximum price"
+  },
+  "lblAmenities": "Amenities",
+  "@lblAmenities": {
+    "description": "The label to set the amenities"
+  },
+  "lblShowMore": "Show more",
+  "@lblShowMore": {
+    "description": "The label to show more amenities"
+  },
+  "lblBedrooms": "Bedrooms",
+  "@lblBedrooms": {
+    "description": "The label to set the number of bedrooms"
+  },
+  "lblBathrooms": "Bathrooms",
+  "@lblBathrooms": {
+    "description": "The label to set the number of bathrooms"
+  },
+  "lblBeds": "Beds",
+  "@lblBeds": {
+    "description": "The label to set the number of beds"
+  },
+  "lblKitchens": "Kitchens",
+  "@lblKitchens": {
+    "description": "The label to set the number of kitchens"
+  },
+  "lblLivingRoom": "Living room",
+  "@lblLivingRoom": {
+    "description": "The label to set the number of living rooms"
+  },
+  "lblRoommates": "Roommates",
+  "@lblRoommates": {
+    "description": "The label to set the number of roommates"
+  },
+  "btnApplyFilters": "Apply filters",
+  "@btnApplyFilters": {
+    "description": "The button to apply the selected filters"
+  },
+  "lblCurrentRenters": "Current renters: {current_renters}/{total_renters}",
+  "@lblCurrentRenters": {
+    "description": "The label to set the number of current renters",
+    "placeholders": {
+      "current_renters": {
+        "type": "int",
+        "example": "2"
+      },
+      "total_renters": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "btnMoreDetails": "More details",
+  "@btnMoreDetails": {
+    "description": "The label to view more details about the room"
+  },
+  "btnRequestInfo": "Request information",
+  "@btnRequestInfo": {
+    "description": "The button to request more information about the room"
+  },
+  "lblLogin": "Login",
+  "@lblLogin": {
+    "description": "The label to login into the app"
+  },
+  "lblLoginDesc": "Log in to fully use RoomFinder's features",
+  "@lblLoginDesc": {
+    "description": "The description to login into the app"
+  },
+  "lblEmail": "Email",
+  "@lblEmail": {
+    "description": "The label to enter the email"
+  },
+  "lblPassword": "Password",
+  "@lblPassword": {
+    "description": "The label to enter the password"
+  },
+  "lblNoAccount": "Don't have an account? ",
+  "@lblNoAccount": {
+    "description": "The label to register a new account"
+  },
+  "btnSignUp": "Sign up",
+  "@btnSignUp": {
+    "description": "The button to register a new account"
+  },
+  "lblRegistration": "Registration",
+  "@lblRegistration": {
+    "description": "The label to register a new account"
+  },
+  "lblAccountType": "Type of account",
+  "@lblAccountType": {
+    "description": "The label to select the type of account"
+  },
+  "btnStudent": "Student",
+  "@btnStudent": {
+    "description": "The label to select the student account"
+  },
+  "btnHost": "Host",
+  "@btnHost": {
+    "description": "The label to select the host account"
+  },
+  "lblName": "Name",
+  "@lblName": {
+    "description": "The label to enter the name"
+  },
+  "lblChoosePswd": "Choose a password",
+  "@lblChoosePswd": {
+    "description": "The label to choose a password"
+  },
+  "lblConfirmPswd": "Confirm your password",
+  "@lblConfirmPswd": {
+    "description": "The label to confirm the password"
+  },
+  "lblCurrRentDesc": "Get to know your future roommates already present in the facility 😊",
+  "@lblCurrRentDesc": {
+    "description": "The description to get to know the current renters"
+  },
+  "lblSavedAds": "Saved adverts",
+  "@lblSavedAds": {
+    "description": "The label to view the saved adverts"
+  },
+  "lblSavedAdsDesc": "Explore and manage all your saved adverts",
+  "@lblSavedAdsDesc": {
+    "description": "The description to view the saved adverts"
+  },
+  "lblChat": "Chat",
+  "@lblChat": {
+    "description": "The label to chat with the hosts"
+  },
+  "lblSettings": "Settings",
+  "@lblSettings": {
+    "description": "The label to view the app settings"
+  },
+  "btnPersonalInfo": "Personal information",
+  "@btnPersonalInfo": {
+    "description": "The label to view the personal information"
+  },
+  "btnNotifications": "Notifications",
+  "@btnNotifications": {
+    "description": "The label to view the notifications"
+  },
+  "btnLoginSecurity": "Login & Security",
+  "@btnLoginSecurity": {
+    "description": "The label to view the login and security settings"
+  },
+  "btnTutorial": "Tutorial",
+  "@btnTutorial": {
+    "description": "The label to view the app tutorial"
+  },
+  "lblCreateAds": "Create and manage your offers:",
+  "@lblCreateAds": {
+    "description": "The label to create and manage the adverts"
+  },
+  "btnLogout": "Logout",
+  "@btnLogout": {
+    "description": "The button to logout from the app"
+  },
+  "lblAddress": "Select the right spot",
+  "@lblAddress": {
+    "description": "The label to select the address"
+  },
+  "btnNext": "Next",
+  "@btnNext": {
+    "description": "The button to go to the next step"
+  },
+  "lblSetRooms": "Set the rooms",
+  "@lblSetRooms": {
+    "description": "The label to set the number of rooms"
+  },
+  "lblAddRooms": "Add rooms",
+  "@lblAddRooms": {
+    "description": "The label to add more rooms"
+  },
+  "lblAddNewRoom": "Add a new room",
+  "@lblAddNewRoom": {
+    "description": "The label to add a new room"
+  },
+  "lblEnterRoomName": "Enter a room name",
+  "@lblEnterRoomName": {
+    "description": "The label to enter the room name"
+  },
+  "lblManageRenters": "Manage renters",
+  "@lblManageRenters": {
+    "description": "The label to manage the renters"
+  },
+  "lblAddCurrentRenters": "Add current renters",
+  "@lblAddRenters": {
+    "description": "The label to add more renters"
+  },
+  "btnRemove": "Remove",
+  "@btnRemove": {
+    "description": "The button to remove an item"
+  },
+  "btnEdit": "Edit",
+  "@btnEdit": {
+    "description": "The button to edit an item"
+  },
+  "lblAddEditRenters": "Add or edit renters",
+  "@lblAddEditRenters": {
+    "description": "The label to add or edit the renters"
+  },
+  "lblRenterName": "Name: ",
+  "@lblRenterName": {
+    "description": "The label to enter the name"
+  },
+  "lblEnterName": "Enter a name",
+  "@lblEnterName": {
+    "description": "The label to enter the name"
+  },
+  "lblStudies": "Faculty of studies :",
+  "@lblStudies": {
+    "description": "The label to enter the faculty of studies"
+  },
+  "lblEnterStudies": "Enter a faculty of studies",
+  "@lblEnterStudies": {
+    "description": "The label to enter the faculty of studies"
+  },
+  "lblEnterAge": "Enter the age",
+  "@lblEnterAge": {
+    "description": "The label to enter the age"
+  },
+  "lblInterests": "Interests: ",
+  "@lblInterests": {
+    "description": "The label to enter the interests"
+  },
+  "lblEnterInterests": "Enter some interests",
+  "@lblEnterInterests": {
+    "description": "The label to enter the interests"
+  },
+  "lblContractDeadline": "Contract deadline",
+  "@lblContractDeadline": {
+    "description": "The label to enter the contract deadline"
+  },
+  "dateContractDeadline": "{date}",
+  "@dateContractDeadline": {
+    "description": "The date to enter the contract deadline",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
+  "btnConfirm": "Confirm",
+  "@btnConfirm": {
+    "description": "The button to confirm the action"
+  },
+  "lblAmenitieService": "Amenities and Services",
+  "@lblAmenitieService": {
+    "description": "The label to set the amenities and services"
+  },
+  "lblAddService": "Add service",
+  "@lblAddService": {
+    "description": "The label to add more services"
+  },
+  "lblAddNewService": "Add a new service",
+  "@lblAddNewService": {
+    "description": "The label to add a new service"
+  },
+  "lblSetMonthlyRent": "Set the monthly rent",
+  "@lblSetMonthlyRent": {
+    "description": "The label to set the monthly rent"
+  },
+  "lblAdsTitle": "Let's give yout house title",
+  "@lblAdsTitle": {
+    "description": "The label to set the house title"
+  },
+  "lblEnterTitle": "Enter a title", 
+  "@lblEnterTitle": {
+    "description": "The label to enter the title"
+  },
+  "lblTitleWizard7": "Upload photos",
+  "@lblTitleWizard7": {
+    "description": "The label to upload the photos"
+  },
+  "lblDescWizard7": "Add at least 5 photos of your facility",
+  "@lblDescWizard7": {
+    "description": "The description to upload the photos"
+  },
+  "lblAddPhoto": "Add photo",
+  "@lblAddPhoto": {
+    "description": "The label to choose the photos"
+  },
+  "btnReviewListing": "Review listing",
+  "@btnReviewListing": {
+    "description": "The button to review the listing"
+  },
+  "lblChooseOption": "Choose an option",
+  "@lblChooseOption": {
+    "description": "Select the source from which you want to upload the photos"
+  },
+  "btnCamera": "Camera",  
+  "@btnCamera": {
+    "description": "The button to take a photo with the camera"
+  },
+  "btnGallery": "Gallery",
+  "@btnGallery": {
+    "description": "The button to select a photo from the gallery"
+  },
+  "lblRenterAge": "Age: ",
+  "@lblRenterAge": {
+    "description": "The label to enter the age"
+  },
+  "lblRenterStudies": "Faculty of Studies: ",
+  "@lblRenterStudies": {
+    "description": "The label to enter the faculty of studies"
+  },
+  "lblRenterInterests": "Interests: ",
+  "@lblRenterInterests": {
+    "description": "The label to enter the interests"
+  },
+  "lblRenterContract": "Contract deadline: ",
+  "@lblRenterContract": {
+    "description": "The label to enter the contract deadline"
+  },
+  "lblWiFi": "WiFi",
+  "@lblWiFi": {
+    "description": "The label to set the Wi-Fi"
+  },
+  "lblDishwasher": "Dishwasher",
+  "@lblDishwasher": {
+    "description": "The label to set the dishwasher"
+  },
+  "lblWashingMachine": "Washing machine",
+  "@lblWashingMachine": {
+    "description": "The label to set the washing machine"
+  },
+  "lblDedicatedParking": "Dedicated parking",
+  "@lblDedicatedParking": {
+    "description": "The label to set the dedicated parking"
+  },
+  "lblDryer": "Dryer",
+  "@lblDryer": {
+    "description": "The label to set the dryer"
+  },
+  "lblAirConditioning": "Air conditioning",
+  "@lblAirConditioning": {
+    "description": "The label to set the air conditioning"
+  },
+  "lblHeating": "Heating",
+  "@lblHeating": {
+    "description": "The label to set the heating"
+  },
+  "lblStartContract": "Start contract",
+  "@lblStartContract": {
+    "description": "The label to set the start of the contract"
+  },
+  "lblConnectioError": "Connection error",
+  "@lblConnectioError": {
+    "description": "The error message to show when there is a connection error"
+  },
+  "lblConnectionErrorDesc": "Please check your network connection and try again",
+  "@lblConnectionErrorDesc": {
+    "description": "The description to show when there is a connection error"
+  },
+  "lblGenericError": "An error occurred \nPlease try again later",
+  "@lblGenericError": {
+    "description": "The error message to show when there is a generic error"
+  },
+  "lblNoResults": "No results found",
+  "@lblNoResults": {
+    "description": "The message to show when there are no results"
+  },
+  "lblLoading": "Loading...",
+  "@lblLoading": {
+    "description": "The message to show when the app is loading"
+  },
+  "lblChatPage": "Messages",
+  "@lblChatPage": {
+    "description": "The label of chat page"
+  },
+  "lblTitleDialogWizard": "Help",
+  "@lblTitleDialogWizard": {
+    "description": "The title of the dialog wizard"
+  },
+  "lblContentDialogWizard1": "This page allows you to set the position of your facility. \n\nUse the following form to add the complete address, digiting the city and the street of your facility.",
+  "@lblContentDialogWizard1": {
+    "description": "The content of the dialog wizard"
+  },
+  "lblContentDialogWizard2": "This page allows you to set your facility's rooms. \n\nIn this page you can find some predefined rooms where you can set the number or, if the room is not present in the list, you can add a new room through the add room button. \n\nIf you add a bedroom you will also be asked to set the number of beds for that bedroom.",
+  "@lblContentDialogWizard2": {
+    "description": "The content of the dialog wizard"
+  },
+  "lblContentDialogWizard3": "This page allows to set the maximum number of renters and manage the current renters already present in the facility, each one represent by its own box. It is possible to add, edit or remove renters.",
+  "@lblContentDialogWizard3": {
+    "description": "The content of the dialog wizard"
+  },
+  "lblContentDialogWizard4": "This page allows you to select all the amenities and services that your facility offers. \n\nIn this page you can find some predefined options that you can select and, if a service that you offer is not present in the list, you can add a new one through the add service button.",
+  "@lblContentDialogWizard4": {
+    "description": "The content of the dialog wizard"
+  },
+  "lblContentDialogWizard5": "This page allows you to set the monthly rent of your facility. \n\nUse the slider component to increase or dimish the priceimport 'package:flutter_gen/gen_l10n/app_localizations.dart';.",
+  "@lblContentDialogWizard5": {
+    "description": "The content of the dialog wizard"
+  },
+  "lblContentDialogWizard6": "This page allows you to set the name of your facility by tapping on the input box and digiting the name using the keyboard.",
+  "@lblContentDialogWizard6": {
+    "description": "The content of the dialog wizard"
+  },
+  "lblContentDialogWizard7": "In order to obtain more visibility this page allows you to insert at least five photos of your facility. In this way students can have an idea of your facility just by watching the photos you have posted here. \n\nTo add a new photo use the Add more box and to delete an uploaded photo tap on the top-left cancel button placed near each added photo.",
+  "@lblContentDialogWizard7": {
+    "description": "The content of the dialog wizard"
+  },
+  "logoutAlertMessage": "Are you sure you want to logout from RoomFinder?",
+  "@logoutAlertMessage": {
+    "description": "The message of the logout dialog"
+  },
+  "accountTypeAlertMessage": "In RoomFinder you can find two types of account: \n\n• Student: select it if you are looking for an accomodation in your city of studies. \n\n• Host: select it if you are interested in making available your spaces, creating rental proposals for future students. \n\nStudent type is the preselected option, so if you are a Student it is not necessary to select anything, otherwise select Host option.",
+  "@accountTypeAlertMessage": {
+    "description": "The message of account type dialog"
+  },
+  "lblLoginSecurity": "Use the following form to change your password",
+  "@lblLoginSecurity": {
+    "description": "The Login & Security label"
+  },
+  "lblPersonalInformation": "Modify here your personal information",
+  "@lblPersonalInformation": {
+    "description": "The Personal Information label"
+  },
+  "lblAccountPhoto": "Account photo",
+  "@lblAccountPhoto": {
+    "description": "The Account photo label"
+  },
+  "btnCancel": "Cancel",
+  "@btnCancel": {
+    "description": "The button to cancel the action"
+  },
+  "lblHostName": "Host name:",
+  "@lblHostName": {
+    "description": "The label that represents host name"
+  },
+  "lblServices": "Services",
+  "@lblServices": {
+    "description": "The label that represents  amenities"
+  },
+  "lblRooms": "Rooms",
+  "@lblRooms": {
+    "description": "The label that represents  amenities"
+  },
+  "lblWarningTitleDialog": "Warning!",
+  "@lblWarningTitleDialog": {
+    "description": "The title of the warning dialog"
+  },
+  "lblCancelWizard": "Are you sure you want to exit? All the data will be lost.",
+  "@lblCancelWizard": {
+    "description": "The message of the exit wizard dialog"
+  },
+  "lblCity": "City",
+  "@lblCity": {
+    "description": "The label of the city form field"
+  },
+  "lblStreet": "Street",
+  "@lblStreet": {
+    "description": "The label of the address form field"
+  },
+  "btnRemoveFilters": "Remove filters",
+  "@btnRemoveFilters": {
+    "description": "The button for filters removal"
+  },
+  "lblPricePerMonth": "per month",
+  "@lblPricePerMonth": {
+    "description": "label for rental price per month"
+  },
+  "lblSuccessfulLogin": "Login successful",
+  "@lblSuccessfulLogin": {
+    "description": "label for successful snackbar"
+  },
+  "lblFailedLogin": "Login error: incorrect credentials",
+  "@lblFailedLogin": {
+    "description": "label for error snackbar"
+  },
+  "lblSuccessfulSignup": "Signup successful: log in now",
+  "@lblSuccessfulSignup": {
+    "description": "label for successful snackbar"
+  },
+  "lblFailedSignup": "Signup error: incorrect credentials",
+  "@lblFailedSignup": {
+    "description": "label for error snackbar"
+  },
+  "lblFailedLogout": "Logout error: try again",
+  "@lblFailedLogout": {
+    "description": "label for error snackbar"
+  },
+  "lblStandardTextFieldError": "{name} field cannot be empty",
+  "@lblStandardTextFieldError": {
+    "description": "The client error shown when the user digits a wrong input",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Name"
+      }
+    }
+  },
+  "lblVoidEmailTextFieldError": "Email field cannot be empty",
+  "@lblVoidEmailTextFieldError": {
+    "description": "The client error shown when the user does not digit an email"
+  },
+  "lblWrongEmailTextFieldError": "Email format is not valid",
+  "@lblWrongEmailTextFieldError": {
+    "description": "The client error shown when the user digits a wrong email"
+  },
+  "lblVoidPswdTextFieldError": "Password field cannot be empty",
+  "@lblPswdTextFieldError": {
+    "description": "The client error shown when the user does not digit a password"
+  },
+  "lblWrongPswdTextFieldError": "Password must be at least 6 characters long",
+  "@lblWrongPswdTextFieldError": {
+    "description": "The client error shown when the password is not long enough"
+  },
+  "lblConfirmPswdMatchError": "Password does not match with the previous one",
+  "@lblConfirmPswdMatchError": {
+    "description": "The client error shown when the confirm password field does not match with choose password field"
+  },
+  "lblWriteMessage": "Write a message",
+  "@lblWriteMessage": {
+    "description": "The send message text field placeholder"
+  },
+  "lblFailedUpdatePhoto": "Error on photo update: try again.",
+  "@lblFailedUpdatePhoto": {
+    "description": "label for error snackbar"
+  },
+  "lblFailedUpdateName": "Error on name update: try again.",
+  "@lblFailedUpdateName": {
+    "description": "label for error snackbar"
+  },
+  "lblSuccessfulPersInfoUpdate": "Personal informations update successfully.",
+  "@lblSuccessfulPersInfoUpdate": {
+    "description": "label for error snackbar"
+  },
+  "lblSuccessfulPasswordUpdate": "Password update successfully",
+  "@lblSuccessfulPasswordUpdate": {
+    "description": "label for error snackbar"
+  },
+  "lblFailedPasswordUpdate": "Error on password update: try again",
+  "@lblFailedPasswordUpdate": {
+    "description": "label for error snackbar"
+  },
+  "lblBedroom": "Bedroom {number}",
+  "@lblBedroom": {
+    "description": "Label to print the number of bedroom in a facility",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "lblBed": "{number} bed(s)",
+  "@lblBed": {
+    "description": "Label to print the number of bedroom in a facility",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "lblAskNewAdUpload": "Are you sure to add this new ad?",
+  "@lblAskNewAdUpload": {
+    "description": "label for AlertDialog"
+  },
+  "lblSuccessfulAdUpload": "New ad added",
+  "@lblSuccessfulAdUpload": {
+    "description": "label for success snackbar"
+  },
+  "lblSuccessfulAdDeleted": "Ad deleted",
+  "@lblSuccessfulAdDeleted": {
+    "description": "label for success snackbar"
+  },
+  "lblSuccessfulAdUpdated": "Ad updated",
+  "@lblSuccessfulAdUpdated": {
+    "description": "label for success snackbar"
+  },
+  "lblSubmitChanges": "Submit changes",
+  "@lblSubmitChanges": {
+    "description": "label for submitting changes button"
+  },
+  "lblReloadPage": "Reload page",
+  "@lblReloadPage": {
+    "description": "label for reload page button"
+  },
+  "lblDeleteAdDialog": "Are you sure to delete this ad?",
+  "@lblDeleteAdDialog": {
+    "description": "label for ad deletion"
+  },
+  "lblTitleWaitingDialog": "Please waiting...",
+  "@lblTitleWaitingDialog": {
+    "description": "label for waiting dialog"
+  },
+  "lblContentUploadWaitingDialog": "Adding new ad...",
+  "@lblContentUploadWaitingDialog": {
+    "description": "label for waiting dialog"
+  },
+  "lblContentUpdateWaitingDialog": "Updating this ad...",
+  "@lblContentUpdateWaitingDialog": {
+    "description": "label for waiting dialog"
+  },
+  "lblChangePswd": "Change password",
+  "@lblChangePswd": {
+    "description": "label for changing password button"
+  },
+  "lblFailOperation": "Fail on {operation}! Please try again",
+  "@lblFailOperation": {
+    "description": "The error message on fail operation",
+    "placeholders": {
+      "operation": {
+        "type": "String",
+        "example": "Operation"
+      }
+    }
+  }
+}
