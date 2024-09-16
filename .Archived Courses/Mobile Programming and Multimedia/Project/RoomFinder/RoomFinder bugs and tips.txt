@@ -1,0 +1,9 @@
+BUG:
+- students saved ads lists not handled when an ad is removed
+- renter panel not scrollable (the keyboard hides some of the fields)
+- when a nonregistered user tries to save an ad, he's automatically redirected to login page but if he goes back to the facility detail page he found the ad as saved --> set the state of the button appropriately
+
+OTHER PROF TIPS: 
+- the navbar should be always present, even in secondary screens (this behaviour is not always respected observing the apps that we use everyday -> we don't have to just copy other apps but we should ask ourself what is the best implementation in terms of usability). The back button is not sufficient, "we failed in the app design every time the user taps on the back button"
+- avoid to use underlined links that bring the user to other pages, underlined links are typical of web environment and they don't belong to the mobile world -> use instead a button with an appropriate label
+- try to focus on the app purposes, for instance, when validating input fields (e.g. in the renter panel there's no control on the renters age, in the real world this can be a problem because I can have a renter who is 12 but in this way the host is responsible for this renter and that's not so good)
