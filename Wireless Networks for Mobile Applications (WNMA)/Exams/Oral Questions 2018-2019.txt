@@ -1,0 +1,18 @@
+1) Fresnel Zone:
+	-spiegazione generale con disegno
+
+2) TCP Hybla:
+	-come funziona (descrizione del parametro ro)
+	-obbiettivo (eliminazione del parametro RTT, porre tutte le connessioni ad RTTzero)
+	-grafico di come cambia una connessione TCP Hybla assieme ad un altro TCP generico (es. TCP New Reno)
+
+3) Standard 802.11:
+	-rappresenzaione dei passaggi di una nuova connessione (DIFS, RTS, SIFS, CTS, SIFS, messaggio...)
+	
+4) Hidden terminal:
+	-spiegazione
+	-perchè non basta <messaggio, ack> ma bisogna fare <RTS, CTS, messaggio, ack> (messaggio può andare perso, se si perde RTS pesa meno)
+	
+5) Network Veicolari
+	-spiegazione generale
+	-parametri definiti dallo standard

@@ -1,0 +1,6 @@
+Questions the professor asked to me:
+1) he drew a graph of a congestion window and he asked me to draw it again but knowing that the RTT is the double (the graph grows at double speed)
+2) tell me what TCP protocols we have seen for satellite communications and explain one (TCP hybla and Westwood)
+3) explain Bluetooth 
+4) RTS CTS
+5) what is the contention window?

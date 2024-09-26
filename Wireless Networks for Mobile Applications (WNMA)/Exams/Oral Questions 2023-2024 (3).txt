@@ -1,0 +1,8 @@
+- Talk about TCP and Wireless
+- Drawing about RTT and how it changes (for example with Hybla)
+- Talk about AODV
+- Draw an example of routing inside AODV
+- Compare it with DSDV and say what changes
+- Talk about Scatternet
+- Draw one scatternet
+- Describe where masters and slaves are

@@ -1,0 +1,6 @@
+1) show how the cwnd changes over time with TCP + explanation of what i represented
+2) what is an ad-hoc network? Draw one and show how the routing between 2 nodes work.
+
+1) talk about bluetooth + what is a piconet/scatternet? 
+2) talk about vanet + which protocol we saw in class? 
+3) indicate one tcp protocol shown in class that fixes one of his problems
