@@ -1,0 +1,7 @@
+- 28/11 IoT application (second part)
+- 03/12 IoT cloud
+- 05/12 guest 1
+- 10/12 guest 2 (remote)
+- 17/12 guest 3
+- 19/12 guest 4 (maybe)
+- January: IoT security + IoT cloud services
