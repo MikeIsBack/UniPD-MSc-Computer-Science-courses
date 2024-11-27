@@ -1,0 +1,9 @@
+Progetto base: implementazione del bus-off mirando ad una o più ECU + studio di fattibilità dello stesso (ad esempio percentuali di successo, fallimento e via dicendo)
+
+Se il progetto base non dovesse essere sufficiente per 2 persone si aggiunge una delle seguenti alternative: 
+
+1) focus particolare sull'approccio fabricated preceded ID + studio dello stesso, il quale richiede codice aggiuntivo
+
+2) osservare il comportamento dell'attacco bus-off sotto condizioni diverse del CAN bus (different bus speeds, different bus loads)
+
+3) implementare alcune delle difese menzionate nel paper. La soluzione che mi convince meno sia a livello di complessità sia per il fatto che alcune contromisure menzionate sono argomenti esterni al paper, di fatto vengono trattati come related works
