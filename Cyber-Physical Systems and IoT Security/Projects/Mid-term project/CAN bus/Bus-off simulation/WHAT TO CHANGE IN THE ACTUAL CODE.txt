@@ -1,0 +1,10 @@
+WHAT TO CHANGE IN THE ACTUAL CODE: 
+
+- IDs are randomly generated, do we want to achieve a specific order where the frames with more dominat bits are sent before less dominant ones?
+Not necessary. Since we have only one ECU that regularly transmits there is no competition with other ECUs and so the order of IDs is not relevant. 
+
+- the simulation (pattern analysis and attack) runs for a specified duration. This can be accepted for the pattern analysis while for the attack is unrealistic to predict the exact duration after which the victim ECU goes to bus-off. The idea is to make the code run until the attack is successfully performed. 
+
+- check if preceded ID logic is correctly implemented.
+
+- ...

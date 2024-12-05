@@ -22,4 +22,3 @@ class VictimECU(ECU):
         random_id = random.randint(*self.non_periodic_id_range)
         random_data = [random.randint(0, 255) for _ in range(random.randint(1, 8))]
         self.send({"id": random_id, "data": random_data, "dlc": len(random_data)})
-

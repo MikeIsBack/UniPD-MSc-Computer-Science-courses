@@ -32,7 +32,7 @@ class ECU:
         else:
             self.receive_error_counter += 1
 
-        if self.transmit_error_counter > 127 and not self.is_error_passive:
+        if not self.is_error_passive and (self.transmit_error_counter > 127 or self.receive_error_counter > 127):
             self.is_error_passive = True
             print(f"[{self.name}] Entered Error-Passive state.")
         if self.transmit_error_counter > 255:
@@ -43,3 +43,7 @@ class ECU:
         """Reduce error counters after successful operations."""
         self.transmit_error_counter = max(0, self.transmit_error_counter - 1)
         self.receive_error_counter = max(0, self.receive_error_counter - 1)
+
+        if self.is_error_passive and (self.transmit_error_counter <= 127 and self.receive_error_counter <= 127):
+            self.is_error_passive = False
+            print(f"[{self.name}] Entered Error-Active state.")

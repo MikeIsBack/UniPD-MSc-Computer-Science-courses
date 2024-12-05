@@ -1,7 +1,5 @@
-- 28/11 IoT application (second part)
-- 03/12 IoT cloud
-- 05/12 guest 1
 - 10/12 guest 2 (remote)
-- 17/12 guest 3
-- 19/12 guest 4 (maybe)
-- January: IoT security + IoT cloud services
+- 12/12 no class
+- 17/12 guest 3 (DAB pumps)
+- 19/12 guest 4 (maybe, in theory there will not be any guest)
+- in january: IoT security + IoT cloud services
