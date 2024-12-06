@@ -6,6 +6,7 @@ class ECU:
         self.receive_error_counter = 0
         self.is_error_passive = False
         self.is_bus_off = False
+        self.sent_frames = []
 
     def send(self, frame):
         """Transmit a CAN frame."""
@@ -14,6 +15,7 @@ class ECU:
             return
 
         print(f"[{self.name}] Sending frame: {frame}")
+        self.sent_frames.append(frame)  # Store the frame for arbitration checks
         self.bus.send_frame(frame)
 
     def listen(self):
@@ -23,6 +25,12 @@ class ECU:
 
         frame = self.bus.receive_frame()
         if frame:
+            # Check for arbitration conflict on DLC
+            for sent_frame in self.sent_frames:
+                if frame["id"] == sent_frame["id"] and frame["dlc"] != sent_frame["dlc"]:
+                    self.increment_error_counter(is_transmit_error=True)
+                    print(f"[{self.name}] Detected DLC conflict with frame: {frame}")
+
             print(f"[{self.name}] Received frame: {frame}")
 
     def increment_error_counter(self, is_transmit_error):

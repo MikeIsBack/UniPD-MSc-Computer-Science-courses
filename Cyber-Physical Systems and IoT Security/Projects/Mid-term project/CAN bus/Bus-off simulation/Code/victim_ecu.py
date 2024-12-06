@@ -15,10 +15,10 @@ class VictimECU(ECU):
         """Send periodic messages based on current time."""
         for frame_id, data, interval_ms in self.periodic_frames:
             if current_time_ms % interval_ms == 0:
-                self.send({"id": frame_id, "data": data, "dlc": len(data)})
+                self.send({"id": f"{frame_id:011b}", "data": [f"{byte:08b}" for byte in data], "dlc": f"{len(data):04b}"})
 
     def send_non_periodic_frame(self):
         """Send non-periodic messages with random IDs."""
         random_id = random.randint(*self.non_periodic_id_range)
         random_data = [random.randint(0, 255) for _ in range(random.randint(1, 8))]
-        self.send({"id": random_id, "data": random_data, "dlc": len(random_data)})
+        self.send({"id": f"{random_id:011b}", "data": [f"{byte:08b}" for byte in random_data], "dlc": f"{len(random_data):04b}"})

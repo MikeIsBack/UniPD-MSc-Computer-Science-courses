@@ -3,34 +3,6 @@ from can_bus import CANBus
 from victim_ecu import VictimECU
 from attacker_ecu import AttackerECU
 
-def simulate_pattern_analysis(bus, victim):
-    """Run pattern analysis simulation."""
-    captured_frames = []
-    simulation_time_ms = 0
-    end_time_ms = 10000  # Analyze for end_time_ms second
-
-    while simulation_time_ms < end_time_ms:
-        victim.send_periodic_frames(simulation_time_ms)
-        frame = bus.receive_frame()
-        if frame:
-            captured_frames.append(frame)
-        simulation_time_ms += 10  # Increment simulation time
-
-    return captured_frames
-
-
-def simulate_attack(bus, victim, attacker, target_id):
-    """Run the attack simulation."""
-    simulation_time_ms = 0
-    end_time_ms = 2000  # Run for 2 seconds
-
-    while simulation_time_ms < end_time_ms:
-        victim.send_periodic_frames(simulation_time_ms)
-        if simulation_time_ms == 500:  # Start the attack at 500ms
-            attacker.execute_attack(preceded_frame_id=0xFFF, target_frame_id=target_id, victim=victim)
-        simulation_time_ms += 10  # Increment simulation time
-
-
 def simulate_bus_with_pattern_attack():
     bus = CANBus()
 
@@ -43,18 +15,18 @@ def simulate_bus_with_pattern_attack():
     victim.configure_periodic_frame(frame_id=0x200, data=[0xCC, 0xDD], interval_ms=1000)
 
     # Simulation parameters
-    simulation_time_ms = 0
-    frame_transmission_time = 10
-    end_time_ms = 5000  # Run for 5 seconds
+    simulation_elapsed_time_ms = 0
+    simulation_end_time_ms = 10000
     traffic = []  # Log of frames for attacker analysis
 
-    # Simulation loop
-    while simulation_time_ms < end_time_ms:
-        # Victim sends periodic messages
-        victim.send_periodic_frames(simulation_time_ms)
+    # Phase 1: Traffic generation and analysis phase
+    print("\n[Simulation] Phase 1: Traffic generation and analysis phase.\n")
+
+    while simulation_elapsed_time_ms < simulation_end_time_ms:  # Analyze for simulation_end_time_ms
+        victim.send_periodic_frames(simulation_elapsed_time_ms)
 
         # Victim sends non-periodic messages at random intervals
-        if simulation_time_ms % frame_transmission_time == 0:
+        if simulation_elapsed_time_ms % 100 == 0:
             victim.send_non_periodic_frame()
 
         # Log traffic for analysis
@@ -62,15 +34,31 @@ def simulate_bus_with_pattern_attack():
         if frame:
             traffic.append(frame)
 
-        # Attacker analyzes traffic at 2 seconds
-        if simulation_time_ms == 2000 and not attacker.target_pattern:
-            attacker.analyze_pattern(traffic, victim)
+        simulation_elapsed_time_ms += 10
 
-        # Attacker executes attack after analyzing
-        if simulation_time_ms > 2000 and attacker.target_pattern:
-            attacker.execute_attack(victim)
+    # Analyze traffic to identify patterns
+    attacker.analyze_pattern(traffic)
 
-        simulation_time_ms += 10  # Increment simulation time
+    # Phase 2: Attack execution phase
+    if attacker.target_pattern:
+        print("\n[Simulation] Phase 2: Executing the attack.\n")
+        simulation_time_ms = 0
+        while not victim.is_bus_off:  # Continue until the victim goes to bus-off state
+            victim.send_periodic_frames(simulation_time_ms)
+
+            # Victim sends non-periodic messages
+            if simulation_time_ms % 100 == 0:
+                victim.send_non_periodic_frame()
+
+            # Attacker listens for precedent frame and executes the attack
+            frame = bus.receive_frame()
+            if frame:
+                attacker.execute_attack(victim)
+
+            simulation_time_ms += 10
+
+        print("[Simulation] Victim has entered bus-off state.")
+    else:
+        print("[Simulation] No valid target pattern identified; attack aborted.")
 
 simulate_bus_with_pattern_attack()
-
