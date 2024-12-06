@@ -42,12 +42,12 @@ def simulate_bus_with_pattern_attack():
     # Phase 2: Attack execution phase
     if attacker.target_pattern:
         print("\n[Simulation] Phase 2: Executing the attack.\n")
-        simulation_time_ms = 0
+        simulation_elapsed_time_ms = 0
         while not victim.is_bus_off:  # Continue until the victim goes to bus-off state
-            victim.send_periodic_frames(simulation_time_ms)
+            victim.send_periodic_frames(simulation_elapsed_time_ms)
 
             # Victim sends non-periodic messages
-            if simulation_time_ms % 100 == 0:
+            if simulation_elapsed_time_ms % 100 == 0:
                 victim.send_non_periodic_frame()
 
             # Attacker listens for precedent frame and executes the attack
@@ -55,7 +55,7 @@ def simulate_bus_with_pattern_attack():
             if frame:
                 attacker.execute_attack(victim)
 
-            simulation_time_ms += 10
+            simulation_elapsed_time_ms += 10
 
         print("[Simulation] Victim has entered bus-off state.")
     else:

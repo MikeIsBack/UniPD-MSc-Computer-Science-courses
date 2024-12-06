@@ -58,7 +58,7 @@ class AttackerECU(ECU):
             print(f"[{self.name}] No pattern identified, no attack launched.")
             return
 
-        periodic_id, precedent_id = self.target_pattern
+        precedent_id = self.target_pattern
         while not victim.is_bus_off:
             frame = self.bus.receive_frame()
             if frame and frame["id"] == precedent_id:
