@@ -16,22 +16,18 @@ class ECU:
 
         print(f"[{self.name}] Sending frame: {frame}")
         self.sent_frames.append(frame)  # Store the frame for arbitration checks
-        self.bus.send_frame(frame)
+        self.bus.send_frame(frame, self)
 
     def listen(self):
         """Listen for a frame on the CAN bus."""
         if self.is_bus_off:
             return
 
-        frame = self.bus.receive_frame()
-        if frame:
-            # Check for arbitration conflict on DLC
-            for sent_frame in self.sent_frames:
-                if frame["id"] == sent_frame["id"] and frame["dlc"] != sent_frame["dlc"]:
-                    self.increment_error_counter(is_transmit_error=True)
-                    print(f"[{self.name}] Detected DLC conflict with frame: {frame}")
-
-            print(f"[{self.name}] Received frame: {frame}")
+        result = self.bus.receive_frame()
+        if result:
+            frame, sender = result
+            if sender != self:
+                print(f"[{self.name}] Received frame: {frame}")
 
     def increment_error_counter(self, is_transmit_error):
         """Increment the error counter."""
@@ -39,6 +35,9 @@ class ECU:
             self.transmit_error_counter += 8
         else:
             self.receive_error_counter += 1
+
+        print(f"[{self.name}] Incremented {'Transmit' if is_transmit_error else 'Receive'} Error Counter. "
+            f"TEC: {self.transmit_error_counter}, REC: {self.receive_error_counter}")
 
         if not self.is_error_passive and (self.transmit_error_counter > 127 or self.receive_error_counter > 127):
             self.is_error_passive = True
