@@ -1,5 +1,0 @@
-- solve the problem of lack of sync between victim and attacker ECU nodes during attack phase
-
-- implement both attacker and victim frame auto-retransmission after a failed tx (now it increases the counter only by 8 and the attacker injects the frame every time it listens to it in the bus)
-
-- after the first bus-off step (victim in error passive) repeat the sim (pattern analysis + attack) until the victim goes to bus-off

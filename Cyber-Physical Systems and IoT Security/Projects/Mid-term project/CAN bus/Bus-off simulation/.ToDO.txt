@@ -1,0 +1,11 @@
+FORCE THE VICTIM IN ERROR PASSIVE WHILE THE ATTACKER STAYS IN ERROR ACTIVE
+- Solve the problem of lack of sync between victim and attacker ECU nodes during attack phase. 
+
+    - In particular focus on resolve_collisions() CAN bus function that does not increment correctly TEC for both ECUs when more than 1 simultaneously transmission occurs. Simultaneously transmissions are not observed even if they should occur when attacker injects malicious frame at the same time of victim periodic transmission => find a way to implement it. 
+
+    - Implement both attacker and victim frame auto-retransmission + error flag after a failed tx. Now TECs are only increased by 8 and the attacker injects the frame every time it senses the frame in the bus. 
+
+VICTIM IN ERROR PASSIVE MODE:
+- After the first bus-off step (victim in error passive and attacker in error active), since now the victim is in error passive mode and its error flags cannot override the CAN bus frames but only increment the victim's TEC by 8, we need to inject more frames than before, repeating n times the attack until the victim goes to bus-off. This because, due to the victim's state, it is not possible to exploit again frames autoretransmission as before.  
+
+    - In fact, rememeber that after 16 retransmissions both ECUs TECs are equal to 128 but at that point the victim raises a passive error flag (111111) which cannot ovverride CAN frames. In this way the attacker is able to successfully retransmit the frame, having so its TEC=128-1=127. The victim's TEC instead increase by 8 reaching 136 and then successfully transmits its error flag having so TEC=136-1=135.  
