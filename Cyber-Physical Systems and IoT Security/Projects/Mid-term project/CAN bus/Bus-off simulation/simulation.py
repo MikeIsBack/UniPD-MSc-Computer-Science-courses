@@ -5,31 +5,40 @@ from attacker_ecu import AttackerECU
 
 def simulate_bus_off_attack():
     bus = CANBus()
-
     victim = VictimECU("Victim", bus)
     attacker = AttackerECU("Attacker", bus)
 
-    # Configure victim's periodic messages
-    victim.configure_periodic_frame(frame_id=0x100, data=[0xAA, 0xBB], interval_ms=500)
-    victim.configure_periodic_frame(frame_id=0x200, data=[0xCC, 0xDD], interval_ms=1000)
-
-    # Phase 1: Pattern analysis
+    # Phase 1: Pattern Analysis
     traffic = []
-    for t in range(10000):
-        victim.normal_behavior(t)
+    step = 100
+    time_interval = 5000
+    for current_time_ms in range(0, time_interval, step):  # Simulate every 100ms step
+        if (current_time_ms + step) % 500 == 0:
+            victim.send_preceded_frame()  # Send the preceded frame
+        elif current_time_ms % 500 == 0:
+            victim.send_periodic_frame()  # Send the periodic frame
+        else:
+            victim.send_non_periodic_frame()  # Send a non-periodic frame
+
+        # Process bus traffic
         result = bus.receive_frame()
         if result:
-            frame, _ = result  # Extract the frame from the tuple
-            traffic.append(frame)  # Append the frame data only
+            frame = result  # Get the frame and add to traffic
+            traffic.append(frame)  # Append the frame to traffic
+        else:
+            print("[Simulation] No frames available at this time step.")
 
+    # Print the traffic captured for debugging purposes
+    print(f"[Simulation] Traffic captured: {[frame['id'] for frame in traffic]}")
+
+    # Phase 2: Attack Execution
     attacker.analyze_pattern(traffic)
 
-    # Phase 2: Attack execution
     if attacker.target_pattern:
         attacker.execute_attack(victim)
-
-        print("[Simulation] Victim has entered bus-off state.")
+        if victim.is_bus_off:
+            print("[Simulation] Victim has entered bus-off state.")
     else:
-        print("[Simulation] No valid target pattern identified; attack aborted.")
+        print("[Simulation] No valid pattern identified; attack aborted.")
 
 simulate_bus_off_attack()

@@ -7,42 +7,27 @@ class AttackerECU(ECU):
         self.observed_patterns = {}  # Tracks periodic messages and precedents
         self.target_pattern = None  # Stores identified target pattern (if found)
 
-    def analyze_pattern(self, frames):
-        """Analyze bus traffic to identify periodic patterns."""
-        total_appearances = {}
+    def analyze_pattern(self, traffic):
+        """Identify fixed preceded patterns in bus traffic."""
+        precedents = {}  # Dictionary to store the relationship between periodic and preceded messages
+        previous_frame = None
 
-        for i in range(1, len(frames)):
-            precedent = frames[i - 1]["id"]  # Preceding frame's ID
-            current_id = frames[i]["id"]    # Current frame's ID
+        # Iterate through traffic to find precedents for each message
+        for i in range(1, len(traffic)):
+            current_frame = traffic[i]
+            current_id = current_frame['id']
 
-            # Update total appearance count
-            total_appearances[current_id] = total_appearances.get(current_id, 0) + 1
+            # Ensure we only look for the sequence of "preceded" followed by "periodic"
+            if previous_frame and previous_frame['id'] == self.preceded_frame['id']:
+                if current_id == self.periodic_frame['id']:
+                    # If the current frame matches the periodic ID and the previous one is the preceded message
+                    print(f"[Attacker] Found pattern: Preceded Frame ID {previous_frame['id']} followed by Periodic Frame ID {current_id}")
+                    self.target_pattern = (self.preceded_frame['id'], self.periodic_frame['id'])
+                    return  # Immediately return when pattern is found
+            
+            previous_frame = current_frame  # Update previous frame for next iteration
 
-            # Update precedents for current_id
-            if current_id not in self.observed_patterns:
-                self.observed_patterns[current_id] = {}
-
-            if precedent not in self.observed_patterns[current_id]:
-                self.observed_patterns[current_id][precedent] = 0
-
-            self.observed_patterns[current_id][precedent] += 1
-
-        best_target = None
-        max_appearance = 0
-
-        for current_id, precedents in self.observed_patterns.items():
-            total_count = total_appearances[current_id]
-            most_common_precedent = max(precedents, key=precedents.get, default=None)
-            precedent_count = precedents.get(most_common_precedent, 0)
-
-            if total_count > max_appearance and precedent_count > 1:
-                max_appearance = total_count
-                best_target = (current_id, most_common_precedent)
-
-        if best_target:
-            self.target_pattern = best_target
-            print(f"[{self.name}] Target pattern identified: Periodic ID {best_target[0]}, Preceded by {best_target[1]}")
-
+        print(f"[Attacker] No pattern identified.")
 
     def fabricate_dlc(self, target_dlc):
         """Generate a fabricated DLC with more dominant bits than the target DLC."""
@@ -67,7 +52,7 @@ class AttackerECU(ECU):
                 frame, _ = result  # Extract the frame from the tuple
                 if frame["id"] == precedent_id:
                     print(f"[{self.name}] Detected preceded frame: {precedent_id}. Preparing attack frame.")
-                    time.sleep(0.01)  # 10 ms delay for synchronization with victim's transmission
+                    """time.sleep(0.01)  # 10 ms delay for synchronization with victim's transmission"""
 
                     # Fabricate the attack frame with mismatched DLC
                     fabricated_dlc = self.fabricate_dlc(frame.get("dlc", "0000"))
@@ -85,4 +70,4 @@ class AttackerECU(ECU):
 
             # Increment simulation time
             simulation_time += 10
-            time.sleep(0.01)  # Delay to simulate real-time frame spacing
+            """time.sleep(0.01)  # Delay to simulate real-time frame spacing"""

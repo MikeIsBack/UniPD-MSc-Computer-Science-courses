@@ -31,15 +31,13 @@ class ECU:
 
     def increment_error_counter(self, is_transmit_error):
         """Increment the error counter."""
-        if is_transmit_error:
-            self.transmit_error_counter += 8
-        else:
-            self.receive_error_counter += 1
+        increment = 8 if is_transmit_error else 0
+        self.transmit_error_counter += increment
 
         print(f"[{self.name}] Incremented {'Transmit' if is_transmit_error else 'Receive'} Error Counter. "
-            f"TEC: {self.transmit_error_counter}, REC: {self.receive_error_counter}")
+              f"TEC: {self.transmit_error_counter}")
 
-        if not self.is_error_passive and (self.transmit_error_counter > 127 or self.receive_error_counter > 127):
+        if not self.is_error_passive and self.transmit_error_counter > 127:
             self.is_error_passive = True
             print(f"[{self.name}] Entered Error-Passive state.")
         if self.transmit_error_counter > 255:
@@ -49,8 +47,7 @@ class ECU:
     def decrement_error_counters(self):
         """Reduce error counters after successful operations."""
         self.transmit_error_counter = max(0, self.transmit_error_counter - 1)
-        self.receive_error_counter = max(0, self.receive_error_counter - 1)
 
-        if self.is_error_passive and (self.transmit_error_counter <= 127 and self.receive_error_counter <= 127):
+        if self.is_error_passive and self.transmit_error_counter <= 127:
             self.is_error_passive = False
             print(f"[{self.name}] Entered Error-Active state.")
