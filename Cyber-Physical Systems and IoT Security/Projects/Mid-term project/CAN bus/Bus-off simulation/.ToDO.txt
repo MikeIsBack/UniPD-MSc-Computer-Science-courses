@@ -1,11 +1,21 @@
-FORCE THE VICTIM IN ERROR PASSIVE WHILE THE ATTACKER STAYS IN ERROR ACTIVE
-- Solve the problem of lack of sync between victim and attacker ECU nodes during attack phase. 
+Consider again the previously sent document, up to now the attacker injects the malicious frame every time it listens to the preceded message of the target one. I want to change this. The idea of the busoff attack is the attacker, after succesfully injected the malicoius message at the right time, brings the victim in error passive only by sending one fabricated frame. This because messages autoretransmission when an error occurs. 
 
-    - In particular focus on resolve_collisions() CAN bus function that does not increment correctly TEC for both ECUs when more than 1 simultaneously transmission occurs. Simultaneously transmissions are not observed even if they should occur when attacker injects malicious frame at the same time of victim periodic transmission => find a way to implement it. 
+This is the scenario: 
 
-    - Implement both attacker and victim frame auto-retransmission + error flag after a failed tx. Now TECs are only increased by 8 and the attacker injects the frame every time it senses the frame in the bus. 
+- victim sends a periodic frame at time t1
 
-VICTIM IN ERROR PASSIVE MODE:
-- After the first bus-off step (victim in error passive and attacker in error active), since now the victim is in error passive mode and its error flags cannot override the CAN bus frames but only increment the victim's TEC by 8, we need to inject more frames than before, repeating n times the attack until the victim goes to bus-off. This because, due to the victim's state, it is not possible to exploit again frames autoretransmission as before.  
+- the attacker sends its fabricated frame at time t1 (same as victim)
 
-    - In fact, rememeber that after 16 retransmissions both ECUs TECs are equal to 128 but at that point the victim raises a passive error flag (111111) which cannot ovverride CAN frames. In this way the attacker is able to successfully retransmit the frame, having so its TEC=128-1=127. The victim's TEC instead increase by 8 reaching 136 and then successfully transmits its error flag having so TEC=136-1=135.  
+- two frame transmitted simultaneously means the arbitration check should be invoked
+
+- the frame that wins is the dominant one in term of ID bit --> if the ID bits are equal, the one who wins is the one with the most dominant DLC but in that case the victim should erase an active error flag while it's in error active mode, this flag is made up by 6 dominant bits (000000) that wins on every message in the bus impeding the attacker to successfully transmit its fabricated message --> both attacker and victim TEC increases by 8
+
+- thanks to autoretransmission both node try to retransmit both failed messages (fabricated for the attacker) and periodic one for the victim
+
+- since both messages are transmitted again together the same error occurs until the victim reaches the error passive state (TEC = 128), then it sends a passive error flag made up by 6 recessive bits (111111). Anyway, in this case the flag cannot override what is in the CAN bus and the attacker can successfully sends its message, the successfull transmission decreases the attacker's TEC by 1, allowing it to stay in error active mode while the victim TEC increases again by 8.
+
+- now with the attacker in error active and the victim in error passive, the victim successfully transmits the previous active error flag which decreases its TEC by 1
+
+- the victim begins again with its normal tx behaviour
+
+- the attacker waits until the victim sends again the periodic message and reinjects the fabricated message to bring the victim in busoff (note that at this point the attacker every time it inject the fabricated message the victim TEC increases by 8 but we cannot rely again on message autoretransmission since the victim is in error passive and its flags cannot be hear by the attacker, so the idea is to inject the message every time the preceded is sensed on the bus => this is the actual implementation, what is written now in the while of execute_attack method, so use that but we need to use it only when the victim is in error passive mode, before we need to implement what said before)

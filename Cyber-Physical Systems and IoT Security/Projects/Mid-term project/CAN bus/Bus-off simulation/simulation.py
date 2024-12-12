@@ -12,10 +12,12 @@ def simulate_bus_off_attack():
     traffic = []
     step = 100
     time_interval = 5000
-    for current_time_ms in range(0, time_interval, step):  # Simulate every 100ms step
-        if (current_time_ms + step) % 500 == 0:
+    periodic_frame_interval = 500
+    
+    for current_time_ms in range(0, time_interval, step):  # Simulate frame tx every 100ms
+        if (current_time_ms + step) % periodic_frame_interval == 0:
             victim.send_preceded_frame()  # Send the preceded frame
-        elif current_time_ms % 500 == 0:
+        elif current_time_ms % periodic_frame_interval == 0:
             victim.send_periodic_frame()  # Send the periodic frame
         else:
             victim.send_non_periodic_frame()  # Send a non-periodic frame
@@ -27,9 +29,6 @@ def simulate_bus_off_attack():
             traffic.append(frame)  # Append the frame to traffic
         else:
             print("[Simulation] No frames available at this time step.")
-
-    # Print the traffic captured for debugging purposes
-    print(f"[Simulation] Traffic captured: {[frame['id'] for frame in traffic]}")
 
     # Phase 2: Attack Execution
     attacker.analyze_pattern(traffic)

@@ -6,13 +6,13 @@ class VictimECU(ECU):
         super().__init__(name, bus)
         self.preceded_frame = {
             "id": f"{0x080:011b}",
-            "data": ["00000000"],
-            "dlc": "0001"
+            "dlc": "0001",
+            "data": ["00000000"]
         }
         self.periodic_frame = {
             "id": f"{0x100:011b}",
-            "data": ["00000000"],
-            "dlc": "0001"
+            "dlc": "0001",
+            "data": ["00000000"]
         }
         self.non_periodic_id_range = (0x300, 0x3FF)
 
