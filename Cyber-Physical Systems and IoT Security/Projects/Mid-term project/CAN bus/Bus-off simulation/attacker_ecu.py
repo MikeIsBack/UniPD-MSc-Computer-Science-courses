@@ -42,9 +42,9 @@ class AttackerECU(ECU):
         if target_pattern and max_count > 1:  # Require the pattern to appear at least twice
             self.target_pattern = target_pattern
             precedent_id, periodic_id = target_pattern
-            print(f"[Attacker] Identified pattern: Precedent ID {precedent_id} followed by Periodic ID {periodic_id}")
+            print(f"\n[Attacker] Identified pattern: Precedent ID {precedent_id} followed by Periodic ID {periodic_id}\n")
         else:
-            print("[Attacker] No valid pattern identified.")
+            print("\n[Attacker] No valid pattern identified.\n")
 
     def execute_attack(self, victim):
         if not self.target_pattern:
@@ -67,48 +67,27 @@ class AttackerECU(ECU):
 
             # Attacker listens for the precedent frame
             frame = self.bus.receive_frame()
-            if frame:
-                if not victim.is_error_passive:
-                    # Phase 1: Victim in Error-Active
-                    if frame["id"] == precedent_id:
-                        print(f"[{self.name}] Detected preceded frame: {precedent_id}. Preparing attack frame.")
 
-                        # Fabricate the attack frame with a dominant DLC
-                        fabricated_frame = {
-                            "id": target_id,
-                            "dlc": "0000",
-                            "data": frame["data"]
-                        }
+            if frame and frame["id"] == precedent_id:
+                print(f"\n[{self.name}] Detected preceded frame: {precedent_id}. Preparing attack frame.\n")
 
-                        # Reach the time on which victim periodic transmission is planned
-                        current_time_ms += step
-                        
-                        # Simultaneous transmission of victim's and attacker's messages
-                        victim.send_periodic_frame()
-                        self.send(fabricated_frame)
+                # Fabricate the attack frame with a dominant DLC
+                fabricated_frame = {
+                    "id": target_id,
+                    "dlc": "0000",
+                    "data": frame["data"]
+                }
 
-                        # Resolve collisions using the CAN bus logic
-                        self.bus.receive_frame()
+                # Reach the time on which victim periodic transmission is planned
+                current_time_ms += step
+                
+                # Simultaneous transmission of victim's and attacker's messages
+                victim.send_periodic_frame()
+                self.send(fabricated_frame)
 
-                        # TODO: after error handling mechanism the simulation "seems" to stop during execution (only by a logic point of view, the code works). This because current_time_ms is not incremented during frames auto-retransmissions, what to do?
-                        current_time_ms += step 
+                # Resolve collisions using the CAN bus logic
+                self.bus.receive_frame()
 
-                else:
-                    # Phase 2: Victim in Error-Passive
-                    if frame["id"] == precedent_id:
-                        print(f"[{self.name}] Detected preceded frame: {precedent_id}. Preparing attack frame.")
-
-                        # Fabricate the attack frame with a dominant DLC
-                        fabricated_frame = {
-                            "id": target_id,
-                            "dlc": "0000",
-                            "data": frame["data"]
-                        }
-
-                        # Inject malicious frame
-                        self.send(fabricated_frame)
-
-                        # Resolve collisions using the bus logic
-                        self.bus.resolve_collisions()
-
-                        current_time_ms += step
+                # TODO: after error handling mechanism the simulation "seems" to stop during execution (only by a logic point of view, the code works). This because current_time_ms is not incremented during frames auto-retransmissions, what to do?
+            
+            current_time_ms += step 

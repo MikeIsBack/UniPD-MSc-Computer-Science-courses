@@ -30,7 +30,7 @@ class VictimECU(ECU):
         random_data = [random.randint(0, 255) for _ in range(random.randint(1, 8))]
         frame = {
             "id": f"{random_id:011b}",
-            "data": [f"{byte:08b}" for byte in random_data],
-            "dlc": f"{len(random_data):04b}"
+            "dlc": f"{len(random_data):04b}",
+            "data": [f"{byte:08b}" for byte in random_data]
         }
         self.send(frame)  # Send the non-periodic frame

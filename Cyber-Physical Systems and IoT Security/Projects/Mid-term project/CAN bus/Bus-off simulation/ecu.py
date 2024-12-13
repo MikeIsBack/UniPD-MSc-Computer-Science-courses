@@ -3,7 +3,6 @@ class ECU:
         self.name = name
         self.bus = bus
         self.transmit_error_counter = 0
-        self.receive_error_counter = 0
         self.is_error_passive = False
         self.is_bus_off = False
 
