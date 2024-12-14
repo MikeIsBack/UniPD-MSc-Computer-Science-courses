@@ -1,3 +1,0 @@
-- 17/12 guest 3 (DAB pumps)
-- 19/12 guest 4 (maybe, in theory there will not be any guest)
-- in january: IoT security + IoT cloud services
