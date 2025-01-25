@@ -1,4 +1,0 @@
-- 8 multiple choice questions (1 point each one without no penalty for wrong answers)
-- 5 open choice questions (4 points each one)
-
-Maximum grade (without taking the LAB test: up to 5 points): 28
