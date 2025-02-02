@@ -5,9 +5,9 @@ Welcome to my personal repository, where I have gathered the study materials, no
 ## 📂 Repository Structure
 
 Each directory corresponds to a specific course and contains:
-- 📖 **Lecture Notes** – Summaries and key takeaways   
-- 📝 **Assignments & Exercises** – Personal solutions and practice work  
-- 💻 **Projects** – Reports (the implementations are available in my other repositories)  
+- **Lecture Notes** – Summaries and key takeaways   
+- **Assignments & Exercises** – Personal solutions and practice work  
+- **Projects** – Reports (the implementations are available in my other repositories)  
 
 ## 🎯 Purpose of This Repository
 
