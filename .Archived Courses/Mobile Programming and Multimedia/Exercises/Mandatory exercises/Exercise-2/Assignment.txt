@@ -1,7 +1,5 @@
 Mobile Design exercise
 
-Data limite: martedì, 30 aprile 2024, 12:00
-
 Create groups of two students and create a presentation with 2/3 slides with:
 
 - an example of positive design of a mobile application (correct usage of gestures, proper metaphor, the use of correct instructions, just-in-time content, etc.) and 
