@@ -1,4 +1,0 @@
-RTT Unfairness
-TCP Hybla
-Hidden and Exposed terminal problems
-DIFS and SIFS time

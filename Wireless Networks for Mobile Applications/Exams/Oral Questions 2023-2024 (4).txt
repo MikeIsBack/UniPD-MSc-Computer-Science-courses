@@ -1,3 +1,0 @@
-- Problems of wireless in TCP
-- RTT-unfairness and how TCP Hybla deals with it
-- RTS/CTS
