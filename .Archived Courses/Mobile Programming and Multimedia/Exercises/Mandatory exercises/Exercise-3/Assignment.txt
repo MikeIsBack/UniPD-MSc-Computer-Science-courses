@@ -1,9 +1,0 @@
-Encode the string:
-
-abcabcabcabcffffffffffff000000000000ffffffffffffffffffffffff
-
-using:
-
-the LZW algorithm and
-choose an algorithm between Shannon-Fano and Huffman.
-Compare the two results in terms of compression ratio. 

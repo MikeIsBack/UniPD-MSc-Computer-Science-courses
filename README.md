@@ -1,6 +1,6 @@
 # UniPD Master's Degree in Computer Science Courses
 
-Welcome to my personal repository, where I have gathered the study materials, notes, and resources used during my Master's Degree in Computer Science at the **University of Padova**. This repository serves as a structured collection of materials from the courses I attended, with a focus on **Internet, Mobile, and Security** topics.
+Welcome to my personal repository, where I have gathered the study materials, notes, and resources used during my Master's Degree in Computer Science at the University of Padova. This repository serves as a structured collection of materials from the courses I attended, with a focus on Internet, Mobile, and Security topics.
 
 ## 📂 Repository Structure
 
@@ -11,7 +11,7 @@ Each directory corresponds to a specific course and contains:
 
 ## 🎓 Purpose of This Repository
 
-This repository is intended as a personal archive of my studies, helping me (and potentially others) consolidate knowledge in various Computer Science subjects. It is **not** meant to replace official course materials but rather to supplement learning.
+This repository is intended as a personal archive of my studies, helping me (and potentially others) consolidate knowledge in various computer science topics. It is not meant to replace official course materials but rather to supplement learning.
 
 ## ⚠️ Disclaimer
 
